@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coop.Web", "Coop.Web\Coop.Web.csproj", "{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
