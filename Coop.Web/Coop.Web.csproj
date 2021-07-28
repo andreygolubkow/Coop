@@ -6,11 +6,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DNTCaptcha.Core" Version="4.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\lib\jquery" />
     </ItemGroup>
 
 </Project>

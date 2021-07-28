@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Coop.Web.Data;
+using DNTCaptcha.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +20,8 @@ namespace Coop.Web
 {
     public class Startup
     {
+        private const string CAPTCHA_KEY = "Develop key";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,6 +40,26 @@ namespace Coop.Web
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            
+            // Captcha
+            services.AddDNTCaptcha(options =>
+            {
+                options.UseCookieStorageProvider(SameSiteMode.Strict)
+                    .AbsoluteExpiration(minutes: 10)
+                    .ShowThousandsSeparators(false)
+                    .WithNoise(pixelsDensity: 25, linesCount: 3)
+                    .WithEncryptionKey(CAPTCHA_KEY)
+                    .InputNames(// This is optional. Change it if you don't like the default names.
+                        new DNTCaptchaComponent
+                        {
+                            CaptchaHiddenInputName = "SecureText",
+                            CaptchaHiddenTokenName = "SecureToken",
+                            CaptchaInputName = "SecureInput"
+                        })
+                    .Identifier("securityCheck")
+                    ;   
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

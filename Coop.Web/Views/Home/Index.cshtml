@@ -1,8 +1,83 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+        <div class="col-md-12 px-0">
+            <h1 class="display-6 fst-italic">Проверить задолженность и оплатить</h1>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6 p-3">
+                <form class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-8">
+                        <div class="input-group">
+                            <div class="input-group-text">Номер гаража</div>
+                            <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Например, 121">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-6">
+                        <dnt-captcha asp-captcha-generator-max="100"
+                                     asp-captcha-generator-min="10"
+                                     asp-captcha-generator-language="English"
+                                     asp-captcha-generator-display-mode="ShowDigits"
+                                     asp-use-relative-urls="true"
+                                     asp-placeholder="Код с картинки"
+                                     asp-validation-error-message="Вы ввели неверный код"
+                                     asp-font-name="Tahoma"
+                                     asp-font-size="20"
+                                     asp-fore-color="#333333"
+                                     asp-back-color="#ccc"
+                                     asp-text-box-class="form-control"
+                                     asp-text-box-template="<div class='input-group'>{0}</div>"
+                                     asp-validation-message-class="text-danger"
+                                     asp-show-refresh-button="false"/>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Проверить задолженность</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 p-3">
+                <figure class="figure">
+                    <img src="~/img/qr-code.gif" class="figure-img img-fluid rounded" alt="QR код">
+                    <figcaption class="figure-caption">QR код для оплаты через приложение</figcaption>
+                </figure>
+                <p class="text-start">
+                    <a href="#">Оплатить картой через банк</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h3 class="mb-0">Информация о кооперативе</h3>
+                    <div class="card-text text-center">
+                        ИНН 7733054384
+                        КПП 773301001
+                        р/сч 40703810638170001899
+                        БИК 044525225
+                        КОРР.СЧ 30101810400000000225
+                        в ПАО СБЕРБАНК г Москва
+                        ГСК «СОКОЛ»
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h3 class="mb-0">Администрация кооператива</h3>
+                    <p class="mb-auto">
+                        Петров Анатолий Иванович
+                    </p>
+                    <a href="#" class="stretched-link">Написать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
