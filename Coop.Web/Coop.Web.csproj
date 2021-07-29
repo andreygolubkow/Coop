@@ -18,4 +18,8 @@
       <Folder Include="wwwroot\lib\jquery" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Coop.Application\Coop.Application.csproj" />
+    </ItemGroup>
+
 </Project>

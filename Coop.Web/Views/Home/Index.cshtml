@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Coop.Application.News.NewsListViewModel
+@{
     ViewData["Title"] = "Главная";
 }
 
@@ -50,31 +51,61 @@
         </div>
     </div>
 
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Информация о кооперативе</h3>
-                    <div class="card-text text-center">
-                        ИНН 7733054384
-                        КПП 773301001
-                        р/сч 40703810638170001899
-                        БИК 044525225
-                        КОРР.СЧ 30101810400000000225
-                        в ПАО СБЕРБАНК г Москва
-                        ГСК «СОКОЛ»
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Администрация кооператива</h3>
-                    <p class="mb-auto">
-                        Петров Анатолий Иванович
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                Последние новости
+            </h3>
+
+            @foreach (var news in Model.Items)
+            {
+                <article class="blog-post">
+                    <h2 class="blog-post-title">@news.Title</h2>
+                    <p class="blog-post-meta">@news.CreatedAt.ToLocalTime()</p>
+                    <p>
+                        @news.Details
                     </p>
-                    <a href="#" class="stretched-link">Написать</a>
+                    <hr>
+                </article>
+            }
+
+            <nav class="blog-pagination" aria-label="Pagination">
+                <a class="btn btn-outline-primary" href="#">Старые</a>
+                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Новые</a>
+            </nav>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-light rounded">
+                    <h4 class="fst-italic">О кооперативе</h4>
+                    <b class="mb-0">Кооператив Моя Семья</b>
+                    <ol class="list-unstyled">
+                        <li>
+                            ИНН: 12332444222111122
+                        </li>
+                        <li>
+                            Юр. адрес: ул. Петрова 1
+                        </li>
+                        <li>
+                            Кол-во гаражей: 555
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="p-4">
+                    <h4 class="fst-italic">Администрация</h4>
+                    <ol class="list-unstyled">
+                        <li>
+                            Директор
+                            <a href="#">Позвонить</a>
+                        </li>
+                        <li>
+                            Пост охраны
+                            <a href="#">Позвонить</a>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>

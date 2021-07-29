@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coop.Web", "Coop.Web\Coop.Web.csproj", "{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coop.Application", "Coop.Application\Coop.Application.csproj", "{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6A75554-5883-4F97-93BA-1FF36FC4AEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

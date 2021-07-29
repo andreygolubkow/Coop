@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Coop.Application.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -59,7 +60,9 @@ namespace Coop.Web
                     .Identifier("securityCheck")
                     ;   
             });
-            
+
+            services.AddNewsFeature();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
