@@ -28,11 +28,6 @@ namespace Coop.Web.Controllers
             return View(_newsService.GetPage(page,PAGE_SIZE));
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

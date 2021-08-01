@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Кооператив</title>
+    <title>@ViewData["Title"] - КИГ "МЕТАЛЛИСТ-4"</title>
     <link rel="stylesheet" href="~/lib/bootstrap/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
@@ -22,8 +22,15 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Advertisement" asp-action="Index">Объявления</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Чат</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Имущество</a>
+                    </li>
+                    
                 </ul>
                 <partial name="_LoginPartial"/>
             </div>
@@ -38,7 +45,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; @DateTime.Now.Year - Автоматизированная информационная система Кооператив - <a asp-area="" asp-controller="Home" asp-action="Privacy">Приватность</a>
+        &copy; @DateTime.Now.Year - АИС Кооператив
     </div>
 </footer>
 <script src="~/lib/jquery/jquery-3.6.0.slim.min.js"></script>

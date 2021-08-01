@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Объявления";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col col-sm-12 col-md-6 mb-1 flex-grow-1">
+            <h3 class="fst-italic">
+                Объявления
+            </h3>
+        </div>
+        <div class="col ml-auto mb-1">
+            <div class="btn-group" role="group">
+                <a href="#" class="btn btn-outline-primary">Создать объявление</a>
+                <a href="#" class="btn btn-outline-primary">Мои объявления</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <article class="blog-post">
+                <h2 class="blog-post-title">Продам гараж</h2>
+                <p class="blog-post-meta">@DateTime.Now</p>
+                <p>
+                    Продам двухэтажный гараж
+                </p>
+                <hr>
+            </article>
+            <nav class="blog-pagination" aria-label="Pagination">
+                <a class="btn btn-outline-primary" href="#">Старые</a>
+                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Новые</a>
+            </nav>
+
+        </div>
+    </div>
+</div>
