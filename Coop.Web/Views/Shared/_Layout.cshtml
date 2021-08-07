@@ -11,7 +11,11 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Кооператив</a>
+            <a asp-controller="Home" asp-action="Index" 
+               class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <img alt="Логотип" class="bi me-2" width="40" height="32" src="~/img/logo.png"/>
+                    <span class="fs-4">МЕТАЛЛИСТ-4</span>
+                  </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -30,7 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Realty" asp-action="Index">Имущество</a>
                     </li>
-                    
+
                 </ul>
                 <partial name="_LoginPartial"/>
             </div>
