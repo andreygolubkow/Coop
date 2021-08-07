@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "История платежей";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>История платежей</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>
+                        <a asp-action="History">Платежи</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>
+                        <a asp-action="History">Платежи</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td >Larry the Bird</td>
+                    <td>
+                        <a asp-action="History">Платежи</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <nav class="blog-pagination" aria-label="Pagination">
+            <a class="btn btn-outline-primary" href="#">Старые</a>
+            <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Новые</a>
+        </nav>
+    </div>
+
+</div>

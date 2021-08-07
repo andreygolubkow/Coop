@@ -8,5 +8,10 @@ namespace Coop.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult History()
+        {
+            return View();
+        }
     }
 }
