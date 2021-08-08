@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Coop.Application.News
+namespace Coop.Application.Articles
 {
-    public class NewsService: INewsService
+    public class ArticleService: IArticleService
     {
-        public static List<NewsListItemViewModel> TestNews = new List<NewsListItemViewModel>()
+        public static List<ArticleListItemViewModel> TestNews = new List<ArticleListItemViewModel>()
         {
-            new NewsListItemViewModel()
+            new ArticleListItemViewModel()
             {
                 Id = Guid.Parse("A3874A03-5DB1-45AC-A26E-4EBDAD7B58F2"),
                 Title = "Технические работы",
                 Details = "13 июня 2021 г. будет отключено электроснабжение с 11:00 до 12:00",
                 CreatedAt = DateTimeOffset.Now.AddDays(-1)
             },
-            new NewsListItemViewModel()
+            new ArticleListItemViewModel()
             {
                 Id = Guid.Parse("10D339C7-6903-4B77-8885-2B62D2134CD3"),
                 Title = "Задолженности",
                 Details = "В связи с предстоящим ремонтом дороги просим всех оплатить членские взносы",
                 CreatedAt = DateTimeOffset.Now.AddDays(-2)
             },
-            new NewsListItemViewModel()
+            new ArticleListItemViewModel()
             {
                 Id = Guid.Parse("48BAD6A6-507A-4803-9A94-BF4A122A0738"),
                 Title = "Продажа гаражей",
@@ -30,7 +30,7 @@ namespace Coop.Application.News
                     "В данный момент продаются гаражи 102а и 102б. По вопросам приобретения обращайтесь в администрацию кооператива.",
                 CreatedAt = DateTimeOffset.Now.AddDays(-3)
             },
-            new NewsListItemViewModel()
+            new ArticleListItemViewModel()
             {
                 Id = Guid.Parse("A4A1CEA0-EC17-47DB-AF25-CF0A5BC8976E"),
                 Title = "Новый способ оплаты",
@@ -38,7 +38,7 @@ namespace Coop.Application.News
                     "Уважаемые члены кооператива, предлагаем вам вносить оплату с помощью QR-кода через приложение банка.",
                 CreatedAt = DateTimeOffset.Now.AddDays(-4)
             },
-            new NewsListItemViewModel()
+            new ArticleListItemViewModel()
             {
                 Id = Guid.Parse("51982D9A-F557-46E8-A6D7-F3754E475422"),
                 Title = "Новый сайт",
@@ -48,9 +48,9 @@ namespace Coop.Application.News
             }
         };
         
-        public NewsListViewModel GetPage(int page, int pageSize)
+        public ArticleListViewModel GetPage(int page, int pageSize)
         {
-            return new NewsListViewModel()
+            return new ArticleListViewModel()
             {
                 PageSize = pageSize,
                 CurrentPage = page,

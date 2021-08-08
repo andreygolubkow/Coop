@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Coop.Application.News
+namespace Coop.Application.Articles
 {
     /// <summary>
     /// Одна новости из списка новостей.
     /// </summary>
-    public class NewsListItemViewModel
+    public class ArticleListItemViewModel
     {
         /// <summary>
         /// Идентификатор новости.

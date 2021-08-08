@@ -1,4 +1,4 @@
-﻿using Coop.Application.News;
+﻿using Coop.Application.Articles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Coop.Application.Extensions
@@ -7,7 +7,7 @@ namespace Coop.Application.Extensions
     {
         public static IServiceCollection AddNewsFeature(this IServiceCollection services)
         {
-           return services.AddTransient<INewsService, NewsService>();
+           return services.AddTransient<IArticleService, ArticleService>();
         }
     }
 }

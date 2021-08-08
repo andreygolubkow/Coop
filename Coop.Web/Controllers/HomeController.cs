@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Coop.Application.News;
+using Coop.Application.Articles;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Coop.Web.Models;
@@ -15,17 +15,17 @@ namespace Coop.Web.Controllers
         private const int PAGE_SIZE = 10;
         
         private readonly ILogger<HomeController> _logger;
-        private readonly INewsService _newsService;
+        private readonly IArticleService _articleService;
 
-        public HomeController(ILogger<HomeController> logger, INewsService newsService)
+        public HomeController(ILogger<HomeController> logger, IArticleService articleService)
         {
             _logger = logger;
-            _newsService = newsService;
+            _articleService = articleService;
         }
 
         public IActionResult Index(int page = 1)
         {
-            return View(_newsService.GetPage(page,PAGE_SIZE));
+            return View(_articleService.GetPage(page,PAGE_SIZE));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

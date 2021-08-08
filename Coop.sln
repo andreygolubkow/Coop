@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coop.Web", "Coop.Web\Coop.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coop.Application", "Coop.Application\Coop.Application.csproj", "{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coop.Domain", "Coop.Domain\Coop.Domain.csproj", "{E993039D-9925-4243-B874-EDDD6B764F63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36BBB8D6-CBF3-4CF0-AFE5-4FE519F722BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E993039D-9925-4243-B874-EDDD6B764F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E993039D-9925-4243-B874-EDDD6B764F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E993039D-9925-4243-B874-EDDD6B764F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E993039D-9925-4243-B874-EDDD6B764F63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
