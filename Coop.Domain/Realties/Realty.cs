@@ -77,5 +77,17 @@ namespace Coop.Domain.Realties
             
             billingManager.SetCurrentBalanceFor(this, balance, balanceTimestamp);
         }
+
+        public void AddPay(IPayManager payManager, DateTimeOffset dateTime, decimal money)
+        {
+            if (!IsActive)
+            {
+                throw new InvalidOperationException("Объект в архиве и для него нельзя установить баланс");
+            }
+
+            Guard.Against.NegativeOrZero(money, nameof(money), "В сумме платежа разрешены только положительные числа");
+            
+            payManager.AddPay(this, dateTime, money);
+        }
     }
 }
