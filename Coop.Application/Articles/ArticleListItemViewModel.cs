@@ -20,7 +20,7 @@ namespace Coop.Application.Articles
         /// <summary>
         /// Дата-время создания новости.
         /// </summary>
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// Текст новости.

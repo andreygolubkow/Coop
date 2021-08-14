@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Coop.Application.Extensions;
+using Coop.Domain.Articles;
+using Coop.Domain.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -38,7 +40,17 @@ namespace Coop.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredUniqueChars = 1;
+                })
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             
@@ -61,8 +73,10 @@ namespace Coop.Web
                     ;   
             });
 
-            services.AddNewsFeature();
+            services.AddArticleFeature();
 
+            services.AddAutoMapper(GetType().Assembly);
+            services.AddScoped<IRepository<Article>, RepositoryBase<Article>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

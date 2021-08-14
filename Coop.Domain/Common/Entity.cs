@@ -8,9 +8,12 @@ namespace Coop.Domain.Common
 
         public Guid Id { get; protected set; } = Guid.NewGuid();
         
-        public DateTimeOffset CreatedAt { get; protected set; } = DateTimeOffset.Now;
+        /// <summary>
+        /// Используем DateTime, т.к. некоторые БД не работают с DTOffset
+        /// </summary>
+        public DateTime CreatedAt { get; protected set; } = DateTime.Now;
         
-        public DateTimeOffset UpdatedAt { get; protected set; } = DateTimeOffset.Now;
+        public DateTime UpdatedAt { get; protected set; } = DateTime.Now;
 
         public override string ToString()
         {

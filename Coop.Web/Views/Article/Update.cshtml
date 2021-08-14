@@ -1,0 +1,42 @@
+﻿@model Coop.Application.Articles.UpdateArticleInputModel
+
+@{
+    ViewBag.Title = "Изменить новость";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic">
+                Изменить новость
+            </h3>
+            @Html.ValidationSummary(false)
+            <form asp-action="Update" method="post">
+                @Html.HiddenFor(m => m.Id)
+                <div class="mb-3">
+                    <label for="article-title" class="form-label">Заголовок</label>
+                    @Html.TextBoxFor(m => m.Title, new
+                    {
+                        @class = "form-control",
+                        id = "article-title",
+                        placeholder = "Введите до 100 символов"
+                    })
+                </div>
+                <div class="mb-3">
+                    <label for="article-text" class="form-label">Текст новости</label>
+                    @Html.TextAreaFor(m => m.Text, new
+                    {
+                        @class = "form-control",
+                        id = "article-text",
+                        rows = "5"
+                    })
+                </div>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Отмена</a>
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,61 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Ardalis.GuardClauses;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Coop.Application.Common;
+using Coop.Domain.Articles;
+using Coop.Domain.Common;
 
 namespace Coop.Application.Articles
 {
     public class ArticleService: IArticleService
     {
-        public static List<ArticleListItemViewModel> TestNews = new List<ArticleListItemViewModel>()
+        private readonly IRepository<Article> _repository;
+        private readonly IMapper _mapper;
+
+        public ArticleService(IRepository<Article> repository, IMapper mapper)
         {
-            new ArticleListItemViewModel()
+            _repository = repository;
+            _mapper = mapper;
+        }
+
+        public async Task Create(CreateArticleInputModel model, Guid authorId, CancellationToken token)
+        {
+            var article = Article.Create(model.Title, model.Text, authorId);
+            await _repository.AddAsync(article, token);
+            var result = await _repository.SaveAsync(token);
+            if (!result) throw new DatabaseException();
+        }
+
+        public UpdateArticleInputModel Get(Guid id)
+        {
+            var article = _repository.Find(id);
+            if (article == null) return null;
+            return _mapper.Map<Article, UpdateArticleInputModel>(article);
+        }
+
+        public async Task UpdateAsync(UpdateArticleInputModel model, CancellationToken token)
+        {
+            var article = _repository.Find(model.Id);
+            Guard.Against.Null(article, "Не найдена новость");
+            
+            article.Update(model.Text, model.Title);
+            _repository.Update(article);
+            if (!await _repository.SaveAsync(token))
             {
-                Id = Guid.Parse("A3874A03-5DB1-45AC-A26E-4EBDAD7B58F2"),
-                Title = "Технические работы",
-                Details = "13 июня 2021 г. будет отключено электроснабжение с 11:00 до 12:00",
-                CreatedAt = DateTimeOffset.Now.AddDays(-1)
-            },
-            new ArticleListItemViewModel()
-            {
-                Id = Guid.Parse("10D339C7-6903-4B77-8885-2B62D2134CD3"),
-                Title = "Задолженности",
-                Details = "В связи с предстоящим ремонтом дороги просим всех оплатить членские взносы",
-                CreatedAt = DateTimeOffset.Now.AddDays(-2)
-            },
-            new ArticleListItemViewModel()
-            {
-                Id = Guid.Parse("48BAD6A6-507A-4803-9A94-BF4A122A0738"),
-                Title = "Продажа гаражей",
-                Details =
-                    "В данный момент продаются гаражи 102а и 102б. По вопросам приобретения обращайтесь в администрацию кооператива.",
-                CreatedAt = DateTimeOffset.Now.AddDays(-3)
-            },
-            new ArticleListItemViewModel()
-            {
-                Id = Guid.Parse("A4A1CEA0-EC17-47DB-AF25-CF0A5BC8976E"),
-                Title = "Новый способ оплаты",
-                Details =
-                    "Уважаемые члены кооператива, предлагаем вам вносить оплату с помощью QR-кода через приложение банка.",
-                CreatedAt = DateTimeOffset.Now.AddDays(-4)
-            },
-            new ArticleListItemViewModel()
-            {
-                Id = Guid.Parse("51982D9A-F557-46E8-A6D7-F3754E475422"),
-                Title = "Новый сайт",
-                Details =
-                    "Добро пожаловать на новый сайт кооператива Моя Семья. Вопросы по использованию сайта вы можете задать администрации кооператива.",
-                CreatedAt = DateTimeOffset.Now.AddDays(-5)
+                throw new DatabaseException();
             }
-        };
-        
+        }
+
+        public async Task ArchiveAsync(Guid id, CancellationToken token)
+        {
+            var article = _repository.Find(id);
+            Guard.Against.Null(article, "Не найдена новость");
+            article.Archive();
+            _repository.Update(article);
+            if (!await _repository.SaveAsync(token))
+            {
+                throw new DatabaseException();
+            }
+        }
+
         public ArticleListViewModel GetPage(int page, int pageSize)
         {
+            var articles = _repository.GetAll()
+                .Where(a => a.IsActive)
+                .OrderBy(a => a.CreatedAt);
+            var count = articles.Count();
             return new ArticleListViewModel()
             {
                 PageSize = pageSize,
                 CurrentPage = page,
-                TotalPages = TestNews.Count / pageSize + (TestNews.Count % pageSize == 0 ? 0 : 1),
-                Items = TestNews.Skip((page-1) * pageSize).Take(pageSize).ToList()
+                TotalPages = count / pageSize + (count % pageSize == 0 ? 0 : 1),
+                Items = articles
+                    .Skip((page-1) * pageSize)
+                    .Take(pageSize)
+                    .ProjectTo<ArticleListItemViewModel>(_mapper.ConfigurationProvider)
+                    .ToList()
             };
         }
     }

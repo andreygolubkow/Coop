@@ -32,8 +32,8 @@ namespace Coop.Domain.Articles
             return new Article()
             {
                 Id = Guid.NewGuid(),
-                CreatedAt = DateTimeOffset.Now,
-                UpdatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 IsActive = true,
                 Title = title,
                 Text = text,
@@ -57,7 +57,7 @@ namespace Coop.Domain.Articles
 
             Title = title;
             Text = text;
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Coop.Domain.Articles
             }
 
             IsActive = false;
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
         }
     }
 }

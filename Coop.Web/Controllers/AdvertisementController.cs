@@ -2,6 +2,7 @@
 
 namespace Coop.Web.Controllers
 {
+
     public class AdvertisementController: Controller
     {
         public IActionResult Index()

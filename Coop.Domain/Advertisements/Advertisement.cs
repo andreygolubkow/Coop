@@ -44,8 +44,8 @@ namespace Coop.Domain.Advertisements
             return new Advertisement()
             {
                 Id = Guid.NewGuid(),
-                CreatedAt = DateTimeOffset.Now,
-                UpdatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 Title = title,
                 Text = text,
                 IsActive = true,
@@ -69,7 +69,7 @@ namespace Coop.Domain.Advertisements
             Guard.Against.NullOrWhiteSpace(newText, nameof(newText), "Текст объявления не может быть пустым");
             Guard.Against.NullOrWhiteSpace(newTitle, nameof(newTitle), "Необходимо указать заголовок объявления");
             
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
             Text = newText;
             Title = newTitle;
         }
@@ -90,7 +90,7 @@ namespace Coop.Domain.Advertisements
 
             PublisherId = publisherId;
             IsPublished = true;
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
         }
 
         public void Archive()
@@ -101,7 +101,7 @@ namespace Coop.Domain.Advertisements
             }
 
             IsActive = false;
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
         }
     }
 }

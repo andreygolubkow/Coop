@@ -27,8 +27,8 @@ namespace Coop.Domain.Realties
             {
                 InventoryNumber = inventoryNumber,
                 IsActive = true,
-                CreatedAt = DateTimeOffset.Now,
-                UpdatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 Id = Guid.NewGuid()
             };
         }
@@ -41,7 +41,7 @@ namespace Coop.Domain.Realties
             }
 
             IsActive = false;
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
         }
 
         public void ChangeInventoryNumber(string newInventoryNumber)
@@ -55,7 +55,7 @@ namespace Coop.Domain.Realties
             }
             
             InventoryNumber = newInventoryNumber;
-            UpdatedAt = DateTimeOffset.Now;
+            UpdatedAt = DateTime.Now;
         }
 
         public void SetOwner(IRealtyOwnersManager manager, Guid newOwnerId)

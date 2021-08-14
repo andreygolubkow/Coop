@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Coop.Application.Extensions
 {
-    public static class ServiceCollectionExtensions
+    public static class Config
     {
-        public static IServiceCollection AddNewsFeature(this IServiceCollection services)
+        public static IServiceCollection AddArticleFeature(this IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Mappings));
            return services.AddTransient<IArticleService, ArticleService>();
         }
     }

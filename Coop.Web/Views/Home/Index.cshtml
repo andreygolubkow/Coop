@@ -55,13 +55,32 @@
         <div class="col-md-8">
             <h3 class="pb-4 mb-4 fst-italic">
                 Последние новости
+                @if (User.IsInRole(Constants.ADMIN_ROLE))
+                {
+                    <a asp-action="Create" 
+                       asp-controller="Article" 
+                       class="btn btn-sm btn-outline-primary">Добавить новость</a>
+                }
             </h3>
 
             @foreach (var news in Model.Items)
             {
                 <article class="blog-post">
                     <h2 class="blog-post-title">@news.Title</h2>
-                    <p class="blog-post-meta">@news.CreatedAt.ToLocalTime()</p>
+                    <p class="blog-post-meta">
+                        @news.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                        @if (User.IsInRole(Constants.ADMIN_ROLE))
+                        {
+                            <a asp-action="Update" 
+                               asp-controller="Article" 
+                               asp-route-id="@news.Id"
+                               class="text-warning">Изменить новость</a>
+                            <a asp-action="Archive" 
+                               asp-controller="Article" 
+                               asp-route-id="@news.Id"
+                               class="text-danger">Удалить новость</a>
+                        }
+                    </p>
                     <p>
                         @news.Details
                     </p>
@@ -129,7 +148,7 @@
                             <a href="tel:89224709191">89224709191</a>
                             Сергей Михайлович
                         </li>
-                        
+
                     </ol>
                 </div>
 
@@ -138,7 +157,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Продам ВАЗ-2107</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Автор: 
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                Автор:
                                 <a href="#">Иванов И.И.</a>
                             </h6>
                             <p class="card-text">
