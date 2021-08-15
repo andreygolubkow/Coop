@@ -74,4 +74,5 @@ namespace Coop.Domain.Articles
             UpdatedAt = DateTime.Now;
         }
     }
+    
 }

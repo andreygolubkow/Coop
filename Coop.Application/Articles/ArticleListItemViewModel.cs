@@ -26,5 +26,7 @@ namespace Coop.Application.Articles
         /// Текст новости.
         /// </summary>
         public string Details { get; set; } = string.Empty;
+
+        
     }
 }

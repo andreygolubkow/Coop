@@ -1,0 +1,25 @@
+﻿@model string
+
+@{
+    Layout = "_Layout";
+}
+<div class="container">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic">
+                Удалить объявление
+            </h3>
+            @Html.ValidationSummary(false)
+            
+            @Model
+            
+            <a asp-controller="Advertisement" asp-action="Index" class="btn btn-outline-primary">Все объявления</a>
+            <a asp-controller="Advertisement" asp-action="MyAd" class="btn btn-outline-primary">Мои объявления</a>
+            @if (User.IsInRole(Constants.ADMIN_ROLE))
+            {
+                <a asp-controller="Advertisement" asp-action="" class="btn btn-outline-success">Ожидающие публикации</a>
+            }
+            
+        </div>
+    </div>
+</div>

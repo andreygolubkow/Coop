@@ -1,0 +1,41 @@
+﻿@model Coop.Application.Advertisement.CreateAdvertisementInputModel
+@{
+    ViewBag.Title = "Добавить объявление";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic">
+                Добавить объявление
+            </h3>
+            @Html.ValidationSummary(false)
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                                    <span class="text-black-50">Обратите внимание, объявление будет опубликовано после одобрения администрацией</span>
+                                </div>
+                <div class="mb-3">
+                    <label for="ad-title" class="form-label">Заголовок</label>
+                    @Html.TextBoxFor(m => m.Title, new
+                    {
+                        @class = "form-control",
+                        id = "ad-title",
+                        placeholder = "Введите до 100 символов"
+                    })
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Текст объявления</label>
+                    @Html.TextAreaFor(m => m.Text, new
+                    {
+                        @class = "form-control",
+                        rows = "5",
+                        placeholder = "Введите до 1000 символов"
+                    })
+                </div>
+                <button type="submit" class="btn btn-success">Подать объявление</button>
+            </form>
+
+        </div>
+    </div>
+</div>

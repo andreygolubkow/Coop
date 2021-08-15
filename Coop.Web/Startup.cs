@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Coop.Application.Extensions;
+using Coop.Application.Advertisement;
+using Coop.Application.Articles;
+using Coop.Domain.Advertisements;
 using Coop.Domain.Articles;
 using Coop.Domain.Common;
 using Microsoft.AspNetCore.Builder;
@@ -74,9 +76,13 @@ namespace Coop.Web
             });
 
             services.AddArticleFeature();
+            services.AddAdvertisementFeature();
 
             services.AddAutoMapper(GetType().Assembly);
+            
             services.AddScoped<IRepository<Article>, RepositoryBase<Article>>();
+            services.AddScoped<IRepository<Advertisement>, RepositoryBase<Advertisement>>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -23,5 +23,10 @@ namespace Coop.Application.Common
         /// Элементы страницы.
         /// </summary>
         public List<T> Items { get; set; } = new List<T>();
+
+        public static int CalculateTotalPages(int pageSize, int totalItems)
+        {
+            return totalItems / pageSize + (totalItems % pageSize == 0 ? 0 : 1);
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace Coop.Application.Articles
         public async Task UpdateAsync(UpdateArticleInputModel model, CancellationToken token)
         {
             var article = _repository.Find(model.Id);
-            Guard.Against.Null(article, "Не найдена новость");
+            Guard.Against.Null(article, nameof(model.Id),"Не найдена новость");
             
             article.Update(model.Text, model.Title);
             _repository.Update(article);
@@ -54,7 +54,7 @@ namespace Coop.Application.Articles
         public async Task ArchiveAsync(Guid id, CancellationToken token)
         {
             var article = _repository.Find(id);
-            Guard.Against.Null(article, "Не найдена новость");
+            Guard.Against.Null(article, nameof(id),"Не найдена новость");
             article.Archive();
             _repository.Update(article);
             if (!await _repository.SaveAsync(token))
@@ -62,6 +62,7 @@ namespace Coop.Application.Articles
                 throw new DatabaseException();
             }
         }
+
 
         public ArticleListViewModel GetPage(int page, int pageSize)
         {

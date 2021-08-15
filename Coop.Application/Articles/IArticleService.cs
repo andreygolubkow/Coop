@@ -14,5 +14,6 @@ namespace Coop.Application.Articles
         public UpdateArticleInputModel Get(Guid id);
         Task UpdateAsync(UpdateArticleInputModel model, CancellationToken token);
         Task ArchiveAsync(Guid id, CancellationToken token);
+
     }
 }

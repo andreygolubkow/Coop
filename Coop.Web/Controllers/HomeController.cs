@@ -13,7 +13,7 @@ namespace Coop.Web.Controllers
    
     public class HomeController : Controller
     {
-        private const int PAGE_SIZE = 10;
+        private const int PageSize = 10;
         
         private readonly ILogger<HomeController> _logger;
         private readonly IArticleService _articleService;
@@ -26,7 +26,7 @@ namespace Coop.Web.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            return View(_articleService.GetPage(page,PAGE_SIZE));
+            return View(_articleService.GetPage(page,PageSize));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

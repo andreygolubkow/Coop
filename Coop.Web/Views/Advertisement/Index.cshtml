@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Coop.Application.Advertisement.AdvertisementListViewModel
+@{
     ViewBag.Title = "Объявления";
     Layout = "_Layout";
 }
@@ -12,24 +13,47 @@
         </div>
         <div class="col ml-auto mb-1">
             <div class="btn-group" role="group">
-                <a href="#" class="btn btn-outline-primary">Создать объявление</a>
-                <a href="#" class="btn btn-outline-primary">Мои объявления</a>
+                <a asp-action="Create" class="btn btn-outline-primary">Создать объявление</a>
+                @if (User.IsInRole(Constants.ADMIN_ROLE))
+                {
+                    <a asp-action="NewAds" class="btn btn-outline-warning">Модерация объявлений</a>
+                }
+                <a asp-action="MyAd" class="btn btn-outline-primary">Мои объявления</a>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <article class="blog-post">
-                <h2 class="blog-post-title">Продам гараж</h2>
-                <p class="blog-post-meta">@DateTime.Now</p>
-                <p>
-                    Продам двухэтажный гараж
-                </p>
-                <hr>
-            </article>
+
+            @foreach (var ad in Model.Items)
+            {
+                <article class="blog-post">
+                    <h2 class="blog-post-title">@ad.Title</h2>
+                    <p class="blog-post-meta">
+                        @ad.CreatedAt.ToString("dd.MM.yyyy HH.mm")
+                        @if (User.IsInRole(Constants.ADMIN_ROLE))
+                        {
+                            <a asp-action="Archive" asp-route-id="@ad.Id" class="text-danger">Удалить</a>
+                        }
+                    </p>
+                    <p>
+                        @ad.Text
+                    </p>
+                    <hr>
+                </article>
+            }
+
             <nav class="blog-pagination" aria-label="Pagination">
-                <a class="btn btn-outline-primary" href="#">Старые</a>
-                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Новые</a>
+                @if (@Model.CurrentPage < @Model.TotalPages)
+                {
+                    var nextPage = @Model.CurrentPage + 1;
+                    <a class="btn btn-outline-primary" asp-action="Index" asp-route-page="@nextPage">Старые</a>
+                }
+                @if (Model.CurrentPage > 1)
+                {
+                    var prevPage = Model.CurrentPage - 1;
+                    <a class="btn btn-outline-primary" asp-action="Index" asp-route-page="@prevPage">Новые</a>
+                }
             </nav>
 
         </div>

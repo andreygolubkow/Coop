@@ -89,8 +89,16 @@
             }
 
             <nav class="blog-pagination" aria-label="Pagination">
-                <a class="btn btn-outline-primary" href="#">Старые</a>
-                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Новые</a>
+                @if (@Model.CurrentPage < @Model.TotalPages)
+                {
+                    var nextPage = @Model.CurrentPage + 1;
+                    <a class="btn btn-outline-primary" asp-action="Index" asp-route-page="@nextPage">Старые</a>
+                }
+                @if (Model.CurrentPage > 1)
+                {
+                    var prevPage = Model.CurrentPage - 1;
+                    <a class="btn btn-outline-primary" asp-action="Index" asp-route-page="@prevPage">Новые</a>
+                }
             </nav>
 
         </div>

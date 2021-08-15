@@ -1,7 +1,6 @@
-﻿using Coop.Application.Articles;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Coop.Application.Extensions
+namespace Coop.Application.Articles
 {
     public static class Config
     {
