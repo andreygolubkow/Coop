@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Coop.Application.AdminNotes;
 using Coop.Application.Advertisement;
 using Coop.Application.Articles;
 using Coop.Domain.Advertisements;
@@ -77,6 +78,7 @@ namespace Coop.Web
 
             services.AddArticleFeature();
             services.AddAdvertisementFeature();
+            services.AddCompanyInformationFeature(Configuration);
 
             services.AddAutoMapper(GetType().Assembly);
             
