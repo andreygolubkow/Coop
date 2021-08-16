@@ -10,7 +10,6 @@ using Coop.Web.Models;
 
 namespace Coop.Web.Controllers
 {
-   
     public class HomeController : Controller
     {
         private const int PageSize = 10;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Coop.Application.AdminNotes;
 using Coop.Application.Advertisement;
 using Coop.Application.Articles;
+using Coop.Application.QrPay;
 using Coop.Domain.Advertisements;
 using Coop.Domain.Articles;
 using Coop.Domain.Common;
@@ -79,6 +80,7 @@ namespace Coop.Web
             services.AddArticleFeature();
             services.AddAdvertisementFeature();
             services.AddCompanyInformationFeature(Configuration);
+            services.AddQrPayFeature(Configuration);
 
             services.AddAutoMapper(GetType().Assembly);
             

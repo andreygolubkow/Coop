@@ -1,4 +1,6 @@
-﻿@model Coop.Application.Articles.ArticleListViewModel
+﻿@inject ICompanyInformation _companyInformation
+@using Coop.Application.AdminNotes
+@model Coop.Application.Articles.ArticleListViewModel
 @{
     ViewData["Title"] = "Главная";
 }
@@ -11,10 +13,10 @@
         <div class="row mb-2">
             <div class="col-md-6 p-3">
                 <form class="row row-cols-lg-auto g-3 align-items-center">
-                    <div class="col-8">
+                    <div class="col-9">
                         <div class="input-group">
-                            <div class="input-group-text">Номер гаража</div>
-                            <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Например, 121">
+                            <div class="input-group-text">№ гаража</div>
+                            <input type="text" class="form-control" id="input-garage-number" placeholder="Например, 121">
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6 col-lg-6">
@@ -35,18 +37,21 @@
                                      asp-show-refresh-button="false"/>
                     </div>
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Проверить задолженность</button>
+                        <button id="button-check-garage" type="submit" class="btn btn-primary">Проверить задолженность</button>
                     </div>
                 </form>
             </div>
             <div class="col-md-6 p-3">
                 <figure class="figure">
-                    <img src="~/img/qr-code.gif" class="figure-img img-fluid rounded" alt="QR код">
-                    <figcaption class="figure-caption">QR код для оплаты через приложение</figcaption>
+                    <img id="img-garage-pay"
+                         width="150"
+                         height="150"
+                         src="~/img/qr-code.png" class="figure-img img-fluid rounded" alt="QR код">
+                    <figcaption class="figure-caption">Для получения QR кода проверьте задолженность</figcaption>
                 </figure>
-                <p class="text-start">
+                <!--<p class="text-start">
                     <a href="#">Оплатить картой через банк</a>
-                </p>
+                </p>-->
             </div>
         </div>
     </div>
@@ -107,77 +112,57 @@
             <div class="position-sticky" style="top: 2rem;">
                 <div class="p-4 mb-3 bg-light rounded">
                     <h4 class="fst-italic">О кооперативе</h4>
-                    <b class="mb-0">КИГ "МЕТАЛЛИСТ-4"</b>
+                    <b class="mb-0">@_companyInformation.GetCompany()</b>
                     <ol class="list-unstyled">
-                        <li>
-                            ИНН: 7203005783
-                        </li>
-                        <li>
-                            КПП: 720301001
-                        </li>
-                        <li>
-                            ОГРН: 1037200600447
-                        </li>
-                        <li>
-                            ОКПО: 36260649
-                        </li>
-                        <li>
-                            Расчетный счёт: 40703810967100100047
-                        </li>
-                        <li>
-                            Банк: ЗАПАДНО-СИБИРСКОЕ ОТДЕЛЕНИЕ№8647 ПАО СБЕРБАНК
-                        </li>
-                        <li>
-                            БИК: 047102651
-                        </li>
-                        <li>
-                            Корр. счет: 30101810800000000651
-                        </li>
-                        <li>
-                            Юридический адрес: 625034, Тюменская обл, г Тюмень, ул Дамбовская, д.55, стр. 1
-                        </li>
+                        @foreach (var prop in _companyInformation.GetCompanyProperties())
+                        {
+                            <li>
+                                @prop
+                            </li>
+                        }
                     </ol>
                 </div>
 
                 <div class="p-4">
                     <h4 class="fst-italic">Администрация</h4>
                     <ol class="list-unstyled">
-                        <li>
-                            <b>Эл. почта: </b>
-                            <a href="mailto:metallist4.tmn@gmail.com">metallist4.tmn@gmail.com</a>
-                        </li>
-                        <li>
-                            <b>Бухгалтерия:</b>
-                            <a href="tel:89995499275">89995499275</a>
-                            Ольга Борисовна
-                        </li>
-                        <li>
-                            <b>Председатель: </b>
-                            <a href="tel:89224709191">89224709191</a>
-                            Сергей Михайлович
-                        </li>
-
+                        @foreach (var contact in _companyInformation.GetContacts())
+                        {
+                            <li>
+                                <b>@contact.Channel </b>
+                                @contact.Contact
+                            </li>
+                        }
                     </ol>
-                </div>
-
-                <div class="p-4">
-                    <h4 class="fst-italic">Объявления</h4>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Продам ВАЗ-2107</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                Автор:
-                                <a href="#">Иванов И.И.</a>
-                            </h6>
-                            <p class="card-text">
-                                Продам автомобиль ВАЗ-2107 в отличном состоянии. Все вопросы по телефону +7 111 222 33 11
-                            </p>
-                            <a href="#" class="card-link">Просмотреть все объявления</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        const payFuncUrl = `@Url.ActionLink("GetPayImage", "Payment")`;
+        const garageNumInput = $("#input-garage-number");
+        const garageCheckButton = $("#button-check-garage");
+        const garagePayImg = $("#img-garage-pay");
+        
+        $(() => {
+            garageCheckButton.click((e) => {
+               e.preventDefault();
+               let garage = garageNumInput.val();
+               let url = `${payFuncUrl}?subject=Оплата услуг обслуживания гаража ${garage}&sum=${100}`;
+               $.ajax({
+                 url: url,
+                 beforeSend: function( xhr ) {
+                 }
+               })
+                 .done(function( data ) {
+                    garagePayImg.attr("src",data);
+                 }); 
+            });
+        });
+    </script>
+}
