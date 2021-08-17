@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Управление имуществом";
+    Layout = "_Layout";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    Добавление объекта
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Укажите номер объекта/строения/гаража</h5>
+                    <p class="" id="add-realty-result"></p>
+                    <form id="add-realty-form">
+                        <div class="mb-3">
+                            <label for="add-realty-text" class="form-label">Номер:</label>
+                            <input type="text" class="form-control" name="InventoryNumber" id="add-realty-text" placeholder="1000">
+                        </div>
+                    </form>
+                    <button id="add-realty-button" type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Имущество кооператива
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Номер</th>
+                              <th scope="col">Владелец</th>
+                              <th scope="col">Задолженность</th>
+                              <th scope="col">Действия</th>
+                            </tr>
+                          </thead>
+                          <tbody id="realty-table-body">
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        const addRealtyUrl = `@Url.Action("CreateRealty")`;
+        const getRealtyPageUrl = `@Url.Action("GetRealtyPage")?page=`;
+        
+        const addResult = $("#add-realty-result");
+        const addRealtyForm = $("#add-realty-form");
+        const addRealtyButton = $("#add-realty-button");
+        
+        const realtyTableBody = $("#realty-table-body");
+        let currentPage = 1;
+        
+        function GetTableRow(id,number,owner,balance){
+            return `<tr>
+                        <th scope="row">${number}</th>
+                        <td>${owner}</td>
+                        <td>${balance}</td>
+                        <td></td>
+                    </tr>`;
+        }
+        
+        function SendAddRealty(){
+            $.ajax({
+              method: "POST",
+              url: addRealtyUrl,
+              data: addRealtyForm.serialize(),
+              beforeSend: function( xhr ) {
+                  addRealtyButton.addClass("disabled");
+              },
+              error: function (jqXHR, exception) {
+                 addResult.attr("class","text-danger");
+                 if (jqXHR.responseText != null){
+                    addResult.html(jqXHR.responseText);    
+                 } else {
+                     addResult.html("Произошла неизвестная ошибка");
+                     console.error("Ошибка при попытке добавления объекта");
+                     console.error(jqXHR);
+                 }                 
+              }
+            })
+              .done(function( msg ) {
+                addResult.attr("class","text-success");
+                addResult.html(msg);
+              })
+              .always(function() {
+                  addRealtyButton.removeClass("disabled");
+                });
+        }
+        
+        function LoadRealtyPage(pageNumber){
+            $.ajax({
+                method: "GET",
+                url: getRealtyPageUrl+currentPage,
+                beforeSend: function( xhr ) {
+                  
+                },
+                error: function (jqXHR, exception) {
+                    addResult.attr("class","text-danger");
+                    if (jqXHR.responseText != null){
+                        addResult.html(jqXHR.responseText);    
+                    } else {
+                        addResult.html("Произошла неизвестная ошибка");
+                        console.error("Ошибка при попытке добавления объекта");
+                        console.error(jqXHR);
+                    }                 
+                }
+            })
+            .done(function( data ) {
+                realtyTableBody.html("");
+                realtyTableBody.append(data.items.map(i => GetTableRow(i.id,i.inventoryNumber,"","")));
+            })
+            .always(function() {    
+            }); 
+        }
+        
+        $(() => {
+            currentPage = 1;
+            addRealtyButton.on("click",e => {
+                e.preventDefault();
+                SendAddRealty();
+            });
+            LoadRealtyPage(currentPage);
+        });
+    </script>
+}

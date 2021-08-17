@@ -7,9 +7,11 @@ using Coop.Application.AdminNotes;
 using Coop.Application.Advertisement;
 using Coop.Application.Articles;
 using Coop.Application.QrPay;
+using Coop.Application.Realty;
 using Coop.Domain.Advertisements;
 using Coop.Domain.Articles;
 using Coop.Domain.Common;
+using Coop.Domain.Realties;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -81,11 +83,13 @@ namespace Coop.Web
             services.AddAdvertisementFeature();
             services.AddCompanyInformationFeature(Configuration);
             services.AddQrPayFeature(Configuration);
+            services.AddRealtyFeature();
 
             services.AddAutoMapper(GetType().Assembly);
             
             services.AddScoped<IRepository<Article>, RepositoryBase<Article>>();
             services.AddScoped<IRepository<Advertisement>, RepositoryBase<Advertisement>>();
+            services.AddScoped<IRepository<Realty>, RepositoryBase<Realty>>();
             
         }
 

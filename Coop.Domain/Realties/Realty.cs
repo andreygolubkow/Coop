@@ -19,6 +19,8 @@ namespace Coop.Domain.Realties
         
         public bool IsActive { get; protected set; }
 
+        public Guid OwnerId { get; protected set; }
+        
         public static Realty Create(string inventoryNumber)
         {
             Guard.Against.NullOrWhiteSpace(inventoryNumber, nameof(inventoryNumber), "Инвентарный номер не может быть пустым");
@@ -58,14 +60,14 @@ namespace Coop.Domain.Realties
             UpdatedAt = DateTime.Now;
         }
 
-        public void SetOwner(IRealtyOwnersManager manager, Guid newOwnerId)
+        public void SetOwner(Guid newOwnerId)
         {
             if (!IsActive)
             {
                 throw new InvalidOperationException("Объект в архиве и ему нельзя назначить владельца");
             }
-            
-            manager.SetOwnerTo(this, newOwnerId);
+
+            OwnerId = newOwnerId;
         }
 
         public void SetBalance(IBillingManager billingManager, decimal balance, DateTimeOffset balanceTimestamp)
