@@ -1,0 +1,45 @@
+﻿@inject ApplicationDbContext _context
+@using Coop.Web.Data
+@using Microsoft.AspNetCore.Identity
+@using System.Threading
+@using Microsoft.EntityFrameworkCore
+@model Coop.Application.Realty.RealtyFullViewModel
+
+@{
+    ViewBag.Title = "Изменить владельца объекта";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic">
+                Изменение владельца для @Model.Number
+            </h3>
+
+            @if (Model.OwnerId != Guid.Empty)
+            {
+                <p>Текущий владелец: 
+                    @((await _context.Users.FirstOrDefaultAsync(u => u.Id == Model.OwnerId, CancellationToken.None)).FullName)
+                </p>
+            }
+            <form method="post" asp-action="ConfirmChangeOwner">
+                <input type="hidden" name="realtyId" value="@Model.Id">
+                <label for="owner-select">Новый владелец:</label>
+                <select id="owner-select" class="form-select" aria-label="Выбор владельца" name="userId">
+                    @{
+                        var users = _context.Users.OrderBy(u => u.FullName).ToList();
+                        @foreach (var user in users)
+                        {
+                            <option value="@user.Id">@user.FullName</option>
+                        }
+                    }
+                </select>
+                <br/>
+                <button class="btn btn-success mb-1" type="submit">Подтвердить изменение</button>
+                <a class="btn btn-outline-primary" asp-action="Realty">Вернуться к списку объектов</a>
+            </form>
+        </div>
+    </div>
+</div>

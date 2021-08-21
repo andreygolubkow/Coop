@@ -8,5 +8,7 @@ namespace Coop.Application.Realty
         
         public string InventoryNumber { get; set; }
         
+        public Guid? OwnerId { get; set; }
+        
     }
 }

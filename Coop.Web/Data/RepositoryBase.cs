@@ -18,7 +18,7 @@ namespace Coop.Web.Data
         
         public IQueryable<T> GetAll()
         {
-            return _context.Set<T>().AsNoTracking();
+            return _context.Set<T>();
         }
 
         public async Task AddAsync(T entity, CancellationToken token)

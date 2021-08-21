@@ -14,5 +14,6 @@ namespace Coop.Web.Controllers
         {
             return View();
         }
+        
     }
 }

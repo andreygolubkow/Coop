@@ -90,6 +90,9 @@ namespace Coop.Web
             services.AddScoped<IRepository<Article>, RepositoryBase<Article>>();
             services.AddScoped<IRepository<Advertisement>, RepositoryBase<Advertisement>>();
             services.AddScoped<IRepository<Realty>, RepositoryBase<Realty>>();
+            services.AddScoped<IRepository<RealtyOwner>, RepositoryBase<RealtyOwner>>();
+            services.AddScoped<IRepository<RealtyDebt>, RepositoryBase<RealtyDebt>>();
+            services.AddScoped<IRepository<RealtyPay>, RepositoryBase<RealtyPay>>();
             
         }
 

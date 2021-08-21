@@ -68,7 +68,10 @@
                         <th scope="row">${number}</th>
                         <td>${owner}</td>
                         <td>${balance}</td>
-                        <td></td>
+                        <td>
+                            <a href="@Url.Action("RequestChangeOwner")?realtyId=${id}">Изменить владельца</a>
+                            <a href="@Url.Action("RequestRemoveRealty")?realtyId=${id}">Удалить</a>
+                        </td>
                     </tr>`;
         }
         

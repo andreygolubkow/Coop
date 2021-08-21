@@ -59,7 +59,7 @@ namespace Coop.Web
                     logger.LogWarning($"Для пользователя {user.Email} указана неверная роль {user.Role}. Доступные: {Constants.USER_ROLE} {Constants.ADMIN_ROLE}" );
                     continue;
                 }
-                var identityUser = new ApplicationUser(user.Email)
+                var identityUser = new ApplicationUser(user.Email, "Пользователь")
                 {
                     UserName =  user.Email,
                     Email = user.Email,

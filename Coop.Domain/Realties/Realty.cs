@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using Ardalis.GuardClauses;
 using Coop.Domain.Common;
 
@@ -19,8 +22,12 @@ namespace Coop.Domain.Realties
         
         public bool IsActive { get; protected set; }
 
-        public Guid OwnerId { get; protected set; }
-        
+        public List<RealtyOwner> Owners { get; protected set; } = new List<RealtyOwner>();
+
+        public List<RealtyDebt> Debts { get; protected set; } = new List<RealtyDebt>();
+
+        public List<RealtyPay> Pays { get; protected set; } = new List<RealtyPay>();
+
         public static Realty Create(string inventoryNumber)
         {
             Guard.Against.NullOrWhiteSpace(inventoryNumber, nameof(inventoryNumber), "Инвентарный номер не может быть пустым");
@@ -60,14 +67,17 @@ namespace Coop.Domain.Realties
             UpdatedAt = DateTime.Now;
         }
 
-        public void SetOwner(Guid newOwnerId)
+        public RealtyOwner SetOwner(Guid newOwnerId, DateTime transferDate)
         {
             if (!IsActive)
             {
                 throw new InvalidOperationException("Объект в архиве и ему нельзя назначить владельца");
             }
 
-            OwnerId = newOwnerId;
+            Owners ??= new List<RealtyOwner>();
+            var owner = new RealtyOwner(transferDate, newOwnerId, this.Id);
+            Owners.Add(owner);
+            return owner;
         }
 
         public void SetBalance(IBillingManager billingManager, decimal balance, DateTimeOffset balanceTimestamp)
@@ -90,6 +100,13 @@ namespace Coop.Domain.Realties
             Guard.Against.NegativeOrZero(money, nameof(money), "В сумме платежа разрешены только положительные числа");
             
             payManager.AddPay(this, dateTime, money);
+        }
+
+        public Guid? GetCurrentOwnerId()
+        {
+            if (Owners == null || Owners.Count == 0) return null;
+            var maxDt = Owners.Max(o => o.TransferDate);
+            return Owners.First(o => o.TransferDate == maxDt).UserId;
         }
     }
 }

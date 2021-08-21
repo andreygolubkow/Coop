@@ -19,10 +19,16 @@ namespace Coop.Web.Data
             Database.EnsureCreated();
         }
         
-        DbSet<Article> Articles { get; }
+        public DbSet<Article> Articles { get; set;}
         
-        DbSet<Advertisement> Advertisements { get; }
+        public DbSet<Advertisement> Advertisements { get; set;}
         
-        DbSet<Realty> Realties { get; }
+        public DbSet<Realty> Realties { get; set;}
+
+        public DbSet<RealtyDebt> RealtyDebts { get; set;}
+
+        public DbSet<RealtyPay> RealtyPays { get; set; }
+
+        public DbSet<RealtyOwner> RealtyOwners { get; set;}
     }
 }

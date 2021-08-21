@@ -1,0 +1,35 @@
+﻿@using Coop.Web.Data
+@using Microsoft.AspNetCore.Identity
+@using System.Threading
+@inject IUserStore<ApplicationUser> _userStore
+@model Coop.Application.Realty.RealtyFullViewModel
+
+@{
+    ViewBag.Title = "Удалить объект";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic">
+                Подтвердите удаление объекта
+            </h3>
+                        
+            <ul class="list-unstyled">
+                <li>Номер: @Model.Number</li>
+                <li>Задолженность: @Model.CurrentDebt</li>
+                @if (Model.OwnerId != Guid.Empty)
+                {
+                    @((await _userStore.FindByIdAsync(Model.OwnerId.ToString(), CancellationToken.None)).FullName)
+                }
+            </ul>
+            <form method="post" asp-action="ConfirmRemoveRealty">
+                <input type="hidden" name="realtyId" value="@Model.Id">
+                <button class="btn btn-danger" type="submit">Подтвердить удаление</button>
+                <a class="btn btn-outline-primary" asp-action="Realty">Вернуться к списку объектов</a>
+            </form>
+        </div>
+    </div>
+</div>
