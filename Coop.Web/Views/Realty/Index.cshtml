@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Coop.Application.Realty.RealtyListViewModel
+@{
     ViewBag.Title = "Имущество";
     Layout = "_Layout";
 }
@@ -7,7 +8,6 @@
     <div class="row">
         <div class="col">
             <h1>Ваше имущество</h1>
-            <i>Данные актуальны на 02.08.2021</i>
         </div>
     </div>
 
@@ -16,33 +16,18 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Номер гаража</th>
+                    <th scope="col">Номер</th>
                     <th scope="col">Задолженность</th>
-                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">122</th>
-                    <td>400 р.</td>
-                    <td>
-                        <a asp-action="History">Платежи</a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">222</th>
-                    <td>0 р.</td>
-                    <td>
-                        <a asp-action="History">Платежи</a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">311</th>
-                    <td >-500 р.</td>
-                    <td>
-                        <a asp-action="History">Платежи</a>
-                    </td>
-                </tr>
+                @foreach (var realty in Model.Items)
+                {
+                    <tr>
+                        <th scope="row">@realty.InventoryNumber</th>
+                        <td>@realty.Balance</td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>

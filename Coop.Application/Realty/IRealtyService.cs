@@ -8,6 +8,8 @@ namespace Coop.Application.Realty
     {
         public RealtyListViewModel GetPage(int pageSize, int pageNum);
 
+        public RealtyListViewModel GetForUser(Guid userId);
+
         public Task AddRealty(NewRealtyInputModel model, CancellationToken token);
 
         public Task<RealtyFullViewModel> GetFullInfoAsync(Guid realtyId, CancellationToken token);

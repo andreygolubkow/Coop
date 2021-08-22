@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coop.Web.Controllers
 {
     [Route("[controller]/[action]")]
-    [Authorize]
     public class PaymentController : Controller
     {
         private readonly IQrPay _qrPay;
@@ -29,11 +28,10 @@ namespace Coop.Web.Controllers
         [ValidateDNTCaptcha(CaptchaGeneratorDisplayMode = DisplayMode.ShowDigits, ErrorMessage =
             "Повторите ввод проверочного кода")]
         [HttpGet]
-        public async Task<IActionResult> GetPayImage([FromQuery] string subject, [FromQuery] int sum)
+        public async Task<IActionResult> GetPayImage([FromQuery] string subject, [FromQuery] int sum,[FromQuery] string name)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Forbid("Пользователь не определен");
-            var code = _qrPay.GenerateCode($"{user.FullName} {subject}", sum);
+            
+            var code = _qrPay.GenerateCode($"{name} {subject}", sum);
             var bytes = BitmapToBytes(code);
             var formatted = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(bytes));
             return Ok(formatted);

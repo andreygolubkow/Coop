@@ -47,6 +47,26 @@ namespace Coop.Application.Realty
             };
         }
 
+        public RealtyListViewModel GetForUser(Guid userId)
+        {
+            
+            var realty =  _repository.GetAll().AsNoTracking()
+                .Include(r => r.Owners)
+                .Where(r => r.IsActive)
+                .Where(r => r.Owners != null && r.Owners.Count>0)
+                .Where(r => r.Owners.First(ro => r.Owners.Max(o => o.TransferDate) == ro.TransferDate).UserId == userId)
+                .OrderBy(r => r.InventoryNumber)
+                .ProjectTo<RealtyListItemViewModel>(_mapper.ConfigurationProvider);
+
+            return new RealtyListViewModel()
+            {
+                CurrentPage = 1,
+                Items = realty.ToList(),
+                PageSize = realty.Count(),
+                TotalPages = 1
+            };
+        }
+
         public async Task AddRealty(NewRealtyInputModel model, CancellationToken token)
         {
             if (_repository.GetAll().Any(r => r.InventoryNumber == model.InventoryNumber && r.IsActive == true))
