@@ -11,13 +11,13 @@
                 Удалить объявление
             </h3>
             @Html.ValidationSummary(false)
-            
+
             <p>
                 Вы действительно хотите удалить объявление?
             </p>
             <a asp-controller="Advertisement" asp-action="ConfirmArchive" asp-route-id="@Model" class="btn btn-danger">Подтвердить удаление</a>
             <a asp-controller="Advertisement" asp-action="Index" class="btn btn-outline-primary">Отмена</a>
-            
+
         </div>
     </div>
 </div>

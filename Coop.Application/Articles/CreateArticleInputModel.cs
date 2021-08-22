@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Coop.Application.Articles
 {
@@ -9,6 +8,7 @@ namespace Coop.Application.Articles
         [MaxLength(100, ErrorMessage = "Заголовок слишком длинный, введите до 100 знаков")]
         [Required(ErrorMessage = "Введите заголовок")]
         public string Title { get; set; }
+
         [MinLength(1, ErrorMessage = "Введите текст новости")]
         [Required(ErrorMessage = "Введите текст новости")]
         public string Text { get; set; }

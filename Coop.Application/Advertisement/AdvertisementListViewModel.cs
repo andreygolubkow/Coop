@@ -2,8 +2,7 @@
 
 namespace Coop.Application.Advertisement
 {
-    public class AdvertisementListViewModel: PageViewModel<AdvertisementListItemViewModel>
+    public class AdvertisementListViewModel : PageViewModel<AdvertisementListItemViewModel>
     {
-        
     }
 }

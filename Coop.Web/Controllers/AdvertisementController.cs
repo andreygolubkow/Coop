@@ -10,21 +10,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coop.Web.Controllers
 {
-
-    [Route("[controller]/[action]")] 
-    public class AdvertisementController: Controller
+    [Route("[controller]/[action]")]
+    public class AdvertisementController : Controller
     {
         public const int PAGE_SIZE = 10;
-        
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAdvertisementService _advertisementService;
 
-        public AdvertisementController(UserManager<ApplicationUser> userManager, IAdvertisementService advertisementService)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public AdvertisementController(UserManager<ApplicationUser> userManager,
+            IAdvertisementService advertisementService)
         {
             _userManager = userManager;
             _advertisementService = advertisementService;
         }
-        
+
         [HttpGet]
         public IActionResult Index(int page = 1)
         {
@@ -33,13 +33,10 @@ namespace Coop.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> MyAd(int page = 1,CancellationToken token = default)
+        public async Task<IActionResult> MyAd(int page = 1, CancellationToken token = default)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound("Ваш профиль не найден. Попробуйте выйти и зайти на сайт.");
-            }
+            if (user == null) return NotFound("Ваш профиль не найден. Попробуйте выйти и зайти на сайт.");
             return View(_advertisementService.GetForUser(user.Id, page, PAGE_SIZE));
         }
 
@@ -56,15 +53,9 @@ namespace Coop.Web.Controllers
         public async Task<IActionResult> Create(CreateAdvertisementInputModel model, CancellationToken token)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user != null)
-            {
-                model.AuthorId = user.Id;
-            }
-            
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (user != null) model.AuthorId = user.Id;
+
+            if (!ModelState.IsValid) return View(model);
 
             try
             {
@@ -73,16 +64,17 @@ namespace Coop.Web.Controllers
             }
             catch (DatabaseException)
             {
-                ModelState.AddModelError("","Произошла ошибка. Объявление не добавлено");
+                ModelState.AddModelError("", "Произошла ошибка. Объявление не добавлено");
             }
             catch (ArgumentException e)
             {
-                ModelState.AddModelError("",e.Message);
+                ModelState.AddModelError("", e.Message);
             }
             catch (InvalidOperationException e)
             {
-                ModelState.AddModelError("",e.Message);
+                ModelState.AddModelError("", e.Message);
             }
+
             return View(model);
         }
 
@@ -101,9 +93,7 @@ namespace Coop.Web.Controllers
             if (user == null)
                 return NotFound("Пользователь не идентифицирован. Попробуйте выйти из аккаунта и повторно войти");
             if (!User.IsInRole(Constants.ADMIN_ROLE) && _advertisementService.GetOwnerId(id) != user.Id)
-            {
-                return this.Forbid("У вас нет прав на выполнение данного действия");
-            }
+                return Forbid("У вас нет прав на выполнение данного действия");
             try
             {
                 await _advertisementService.ArchiveAsync(id, token);
@@ -120,6 +110,7 @@ namespace Coop.Web.Controllers
             {
                 return View(model: e.Message);
             }
+
             return RedirectToAction("Index", "Advertisement");
         }
 
@@ -128,7 +119,7 @@ namespace Coop.Web.Controllers
         public IActionResult NewAds(int page = 1)
         {
             var model = _advertisementService.GetNewAdvertisements(page, PAGE_SIZE);
-            
+
             return View(model);
         }
 
@@ -143,7 +134,7 @@ namespace Coop.Web.Controllers
             }
             catch (DatabaseException e)
             {
-                return this.Problem("Не удалось опубликовать данное объявление. Обратитесь к администратору");
+                return Problem("Не удалось опубликовать данное объявление. Обратитесь к администратору");
             }
             catch (InvalidOperationException)
             {
@@ -153,11 +144,8 @@ namespace Coop.Web.Controllers
             {
                 //ignore
             }
-            
-            if (!string.IsNullOrWhiteSpace(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
+
+            if (!string.IsNullOrWhiteSpace(returnUrl)) return Redirect(returnUrl);
 
             return RedirectToAction("NewAds");
         }

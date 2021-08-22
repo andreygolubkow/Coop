@@ -2,8 +2,7 @@
 
 namespace Coop.Web.Controllers
 {
-
-    public class RealtyController: Controller
+    public class RealtyController : Controller
     {
         public IActionResult Index()
         {
@@ -14,6 +13,5 @@ namespace Coop.Web.Controllers
         {
             return View();
         }
-        
     }
 }

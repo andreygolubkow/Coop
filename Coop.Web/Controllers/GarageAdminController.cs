@@ -4,26 +4,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using Coop.Application.Common;
 using Coop.Application.Realty;
+using Coop.Application.RealtyOwner;
+using Coop.Web.Data;
 using Coop.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Data.SqlClient;
 
 namespace Coop.Web.Controllers
 {
-
-    [Route("[controller]/[action]")] 
+    [Route("[controller]/[action]")]
     [Authorize(Roles = Constants.ADMIN_ROLE)]
-    public class GarageAdminController:Controller
+    public class GarageAdminController : Controller
     {
         public const int PageSize = 10;
-        
-        private readonly IRealtyService _realtyService;
+        private readonly IRealtyOwnerService _realtyOwnerService;
 
-        public GarageAdminController(IRealtyService realtyService)
+        private readonly IRealtyService _realtyService;
+        private readonly IUserStore<ApplicationUser> _userStore;
+
+        public GarageAdminController(IRealtyService realtyService, IRealtyOwnerService realtyOwnerService,
+            IUserStore<ApplicationUser> userStore)
         {
             _realtyService = realtyService;
+            _realtyOwnerService = realtyOwnerService;
+            _userStore = userStore;
         }
 
         [HttpGet]
@@ -44,9 +50,9 @@ namespace Coop.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errors = String.Join(" ", ModelState
-                        .Where(e => e.Value.ValidationState == ModelValidationState.Invalid)
-                        .SelectMany(e => e.Value.Errors.Select(e =>e.ErrorMessage))
+                var errors = string.Join(" ", ModelState
+                    .Where(e => e.Value.ValidationState == ModelValidationState.Invalid)
+                    .SelectMany(e => e.Value.Errors.Select(e => e.ErrorMessage))
                     .ToList());
                 return BadRequest(errors);
             }
@@ -69,7 +75,7 @@ namespace Coop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> RequestRemoveRealty(Guid realtyId, CancellationToken token)
         {
-            var model = await _realtyService.GetFullInfoAsync(realtyId, token);   
+            var model = await _realtyService.GetFullInfoAsync(realtyId, token);
             return View(model);
         }
 
@@ -85,23 +91,24 @@ namespace Coop.Web.Controllers
             {
                 return RedirectToAction("RequestRemoveRealty", new
                 {
-                    realtyId = realtyId
+                    realtyId
                 });
             }
             catch (InvalidOperationException e)
             {
                 return RedirectToAction("RequestRemoveRealty", new
                 {
-                    realtyId = realtyId
+                    realtyId
                 });
             }
             catch (DatabaseException e)
             {
                 return RedirectToAction("RequestRemoveRealty", new
                 {
-                    realtyId = realtyId
+                    realtyId
                 });
             }
+
             return RedirectToAction("Realty");
         }
 
@@ -111,9 +118,10 @@ namespace Coop.Web.Controllers
             var model = await _realtyService.GetFullInfoAsync(realtyId, token);
             return View(model);
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> ConfirmChangeOwner([FromForm]Guid realtyId,[FromForm] Guid userId, CancellationToken token)
+        public async Task<IActionResult> ConfirmChangeOwner([FromForm] Guid realtyId, [FromForm] Guid userId,
+            CancellationToken token)
         {
             if (realtyId == Guid.Empty) return RedirectToAction("Realty");
             if (userId == Guid.Empty) return RedirectToAction("Realty");
@@ -125,23 +133,24 @@ namespace Coop.Web.Controllers
             {
                 return RedirectToAction("RequestRemoveRealty", new
                 {
-                    realtyId = realtyId
+                    realtyId
                 });
             }
             catch (InvalidOperationException e)
             {
                 return RedirectToAction("RequestRemoveRealty", new
                 {
-                    realtyId = realtyId
+                    realtyId
                 });
             }
             catch (DatabaseException e)
             {
                 return RedirectToAction("RequestRemoveRealty", new
                 {
-                    realtyId = realtyId
+                    realtyId
                 });
             }
+
             return RedirectToAction("Realty");
         }
 
@@ -149,6 +158,35 @@ namespace Coop.Web.Controllers
         public IActionResult UploadPays()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult UploadDebts()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RealtyFullInfo(Guid realtyId, CancellationToken token)
+        {
+            var owners = _realtyOwnerService.GetOwnersHistory(realtyId);
+            var users = owners
+                .Select(o => o.OwnerId)
+                .Distinct()
+                .ToDictionary(o => o,
+                    o => string.Empty);
+            foreach (var user in users)
+            {
+                var userAccount = await _userStore.FindByIdAsync(user.Key.ToString(), token);
+                users[user.Key] = userAccount.FullName ?? userAccount.UserName;
+            }
+
+            return View(new RealtyFullPageViewModel
+            {
+                Realty = await _realtyService.GetFullInfoAsync(realtyId, token),
+                OwnHistory = owners,
+                Users = users
+            });
         }
     }
 }

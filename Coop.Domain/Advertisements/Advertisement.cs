@@ -5,33 +5,35 @@ using Coop.Domain.Common;
 namespace Coop.Domain.Advertisements
 {
     /// <summary>
-    /// Рекламное объявление.
+    ///     Рекламное объявление.
     /// </summary>
-    public class Advertisement: Entity
+    public class Advertisement : Entity
     {
-        protected Advertisement(){}
-        
+        protected Advertisement()
+        {
+        }
+
         public string Title { get; protected set; }
-        
+
         public string Text { get; protected set; }
-        
+
         /// <summary>
-        /// Если не активно - то объявление в архиве.
+        ///     Если не активно - то объявление в архиве.
         /// </summary>
         public bool IsActive { get; protected set; }
-        
+
         /// <summary>
-        /// Опубликовано или нет.
+        ///     Опубликовано или нет.
         /// </summary>
         public bool IsPublished { get; protected set; }
 
         /// <summary>
-        /// Кто автор объявления.
+        ///     Кто автор объявления.
         /// </summary>
         public Guid AuthorId { get; protected set; }
-        
+
         /// <summary>
-        /// Кто опубликовал объявление.
+        ///     Кто опубликовал объявление.
         /// </summary>
         public Guid? PublisherId { get; protected set; }
 
@@ -41,7 +43,7 @@ namespace Coop.Domain.Advertisements
             Guard.Against.NullOrWhiteSpace(text, nameof(text), "Необходимо указать текст объявления");
             Guard.Against.Default(authorId, nameof(authorId), "Нельзя создать объявление без автора");
 
-            return new Advertisement()
+            return new Advertisement
             {
                 Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
@@ -57,18 +59,12 @@ namespace Coop.Domain.Advertisements
 
         public void Change(string newTitle, string newText)
         {
-            if (!IsActive)
-            {
-                throw new InvalidOperationException("Объявление неактивно и изменить его нельзя");
-            }
-            if (IsPublished)
-            {
-                throw new InvalidOperationException("Объявление уже опубликовано и изменить его нельзя.");
-            }
+            if (!IsActive) throw new InvalidOperationException("Объявление неактивно и изменить его нельзя");
+            if (IsPublished) throw new InvalidOperationException("Объявление уже опубликовано и изменить его нельзя.");
 
             Guard.Against.NullOrWhiteSpace(newText, nameof(newText), "Текст объявления не может быть пустым");
             Guard.Against.NullOrWhiteSpace(newTitle, nameof(newTitle), "Необходимо указать заголовок объявления");
-            
+
             UpdatedAt = DateTime.Now;
             Text = newText;
             Title = newTitle;
@@ -78,15 +74,9 @@ namespace Coop.Domain.Advertisements
         {
             Guard.Against.Default(publisherId, nameof(publisherId),
                 "Необходимо указать пользователя, ответственного за публикацию ");
-            if (!IsActive)
-            {
-                throw new InvalidOperationException("Объявление в архиве и не может быть опубликовано");
-            }
+            if (!IsActive) throw new InvalidOperationException("Объявление в архиве и не может быть опубликовано");
 
-            if (IsPublished)
-            {
-                throw new InvalidOperationException("Объявление уже опубликовано");
-            }
+            if (IsPublished) throw new InvalidOperationException("Объявление уже опубликовано");
 
             PublisherId = publisherId;
             IsPublished = true;
@@ -95,10 +85,7 @@ namespace Coop.Domain.Advertisements
 
         public void Archive()
         {
-            if (!IsActive)
-            {
-                throw new InvalidOperationException("Объявление уже в архиве");
-            }
+            if (!IsActive) throw new InvalidOperationException("Объявление уже в архиве");
 
             IsActive = false;
             UpdatedAt = DateTime.Now;

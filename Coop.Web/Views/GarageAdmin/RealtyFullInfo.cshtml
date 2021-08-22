@@ -1,0 +1,38 @@
+﻿@model RealtyFullPageViewModel
+
+@{
+    ViewBag.Title = "Полная информация об объекте";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    Объект №@Model.Realty.Number
+                    <a asp-action="Realty">Вернуться к просмотру всех объектов</a>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <b>Задолженность:</b>
+                        <i>@Model.Realty.CurrentDebt</i>
+                    </p>
+                    <p>
+                        <b>Текущий владелец:</b>
+                        <i>@Model.Users[Model.Realty.OwnerId]</i>
+                    </p>
+                    <b>История владения</b>
+                    <ul class="list-unstyled">
+                        @foreach (var owner in Model.OwnHistory)
+                        {
+                            <li>с @owner.TransferDate.ToString("dd.MM.yyyy") @Model.Users[owner.OwnerId]</li>
+                        }
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,8 +7,8 @@ namespace Coop.Application.Realty
     public interface IRealtyService
     {
         public RealtyListViewModel GetPage(int pageSize, int pageNum);
-        
-        public Task AddRealty(NewRealtyInputModel model,CancellationToken token);
+
+        public Task AddRealty(NewRealtyInputModel model, CancellationToken token);
 
         public Task<RealtyFullViewModel> GetFullInfoAsync(Guid realtyId, CancellationToken token);
 

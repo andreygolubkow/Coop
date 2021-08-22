@@ -6,9 +6,6 @@ namespace Coop.Application.Realty
     {
         public Guid Id { get; set; }
 
-        public DateTime TransferDateTime {
-            get;
-            set;
-        }
+        public DateTime TransferDateTime { get; set; }
     }
 }

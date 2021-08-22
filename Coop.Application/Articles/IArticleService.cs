@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Coop.Application.Articles
 {
@@ -14,6 +13,5 @@ namespace Coop.Application.Articles
         public UpdateArticleInputModel Get(Guid id);
         Task UpdateAsync(UpdateArticleInputModel model, CancellationToken token);
         Task ArchiveAsync(Guid id, CancellationToken token);
-
     }
 }

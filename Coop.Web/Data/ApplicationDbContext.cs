@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Coop.Domain.Advertisements;
 using Coop.Domain.Articles;
-using Coop.Domain.Common;
 using Coop.Domain.Realties;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,17 +14,17 @@ namespace Coop.Web.Data
         {
             Database.EnsureCreated();
         }
-        
-        public DbSet<Article> Articles { get; set;}
-        
-        public DbSet<Advertisement> Advertisements { get; set;}
-        
-        public DbSet<Realty> Realties { get; set;}
 
-        public DbSet<RealtyDebt> RealtyDebts { get; set;}
+        public DbSet<Article> Articles { get; set; }
+
+        public DbSet<Advertisement> Advertisements { get; set; }
+
+        public DbSet<Realty> Realties { get; set; }
+
+        public DbSet<RealtyDebt> RealtyDebts { get; set; }
 
         public DbSet<RealtyPay> RealtyPays { get; set; }
 
-        public DbSet<RealtyOwner> RealtyOwners { get; set;}
+        public DbSet<RealtyOwner> RealtyOwners { get; set; }
     }
 }

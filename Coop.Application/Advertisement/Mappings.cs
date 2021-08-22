@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Coop.Application.Articles;
-using Coop.Domain.Articles;
 
 namespace Coop.Application.Advertisement
 {
-    public class Mappings: Profile
+    public class Mappings : Profile
     {
         public Mappings()
         {
@@ -17,7 +15,7 @@ namespace Coop.Application.Advertisement
                     a => a.Text))
                 .ForMember(a => a.CreatedAt, m => m.MapFrom(
                     a => a.CreatedAt))
-                .ForMember(a => a.AuthorId, m=>m.MapFrom(
+                .ForMember(a => a.AuthorId, m => m.MapFrom(
                     a => a.AuthorId))
                 .ForMember(a => a.IsPublished, m => m.MapFrom(
                     a => a.IsPublished));

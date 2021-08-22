@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Coop.Application.Articles
 {
-    public class UpdateArticleInputModel: CreateArticleInputModel
+    public class UpdateArticleInputModel : CreateArticleInputModel
     {
-        [Required]
-        public Guid Id { get; set; }
+        [Required] public Guid Id { get; set; }
     }
 }

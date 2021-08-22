@@ -4,15 +4,13 @@ namespace Coop.Domain.Common
 {
     public abstract class Entity
     {
-        protected Entity(){}
-
         public Guid Id { get; protected set; } = Guid.NewGuid();
-        
+
         /// <summary>
-        /// Используем DateTime, т.к. некоторые БД не работают с DTOffset
+        ///     Используем DateTime, т.к. некоторые БД не работают с DTOffset
         /// </summary>
         public DateTime CreatedAt { get; protected set; } = DateTime.Now;
-        
+
         public DateTime UpdatedAt { get; protected set; } = DateTime.Now;
 
         public override string ToString()

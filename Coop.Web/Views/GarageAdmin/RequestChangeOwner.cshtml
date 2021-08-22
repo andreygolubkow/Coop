@@ -1,8 +1,7 @@
 ﻿@inject ApplicationDbContext _context
-@using Coop.Web.Data
-@using Microsoft.AspNetCore.Identity
-@using System.Threading
 @using Microsoft.EntityFrameworkCore
+@using Coop.Web.Data
+@using System.Threading
 @model Coop.Application.Realty.RealtyFullViewModel
 
 @{
@@ -20,7 +19,8 @@
 
             @if (Model.OwnerId != Guid.Empty)
             {
-                <p>Текущий владелец: 
+                <p>
+                    Текущий владелец:
                     @((await _context.Users.FirstOrDefaultAsync(u => u.Id == Model.OwnerId, CancellationToken.None)).FullName)
                 </p>
             }

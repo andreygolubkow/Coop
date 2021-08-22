@@ -17,7 +17,7 @@
                 <a asp-action="Create" class="btn btn-outline-primary">Создать объявление</a>
                 @if (User.IsInRole(Constants.ADMIN_ROLE))
                 {
-                    <a asp-action="NewAds" class="btn btn-outline-warning">Модерация объявлений</a>    
+                    <a asp-action="NewAds" class="btn btn-outline-warning">Модерация объявлений</a>
                 }
                 <a asp-action="Index" class="btn btn-outline-primary">Все объявления</a>
             </div>
@@ -45,9 +45,9 @@
             </div>
         </div>
     }
-    @if (@Model.CurrentPage < @Model.TotalPages)
+    @if (Model.CurrentPage < Model.TotalPages)
     {
-        var nextPage = @Model.CurrentPage + 1;
+        var nextPage = Model.CurrentPage + 1;
         <a class="btn btn-outline-primary" asp-action="MyAd" asp-route-page="@nextPage">Старые</a>
     }
     @if (Model.CurrentPage > 1)

@@ -1,5 +1,4 @@
-﻿using Coop.Application.Articles;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Coop.Application.Advertisement
 {
@@ -8,7 +7,7 @@ namespace Coop.Application.Advertisement
         public static IServiceCollection AddAdvertisementFeature(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Mappings));
-           return services.AddTransient<IAdvertisementService, AdvertisementService>();
+            return services.AddTransient<IAdvertisementService, AdvertisementService>();
         }
     }
 }

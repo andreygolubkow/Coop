@@ -1,7 +1,7 @@
-﻿@using Coop.Web.Data
+﻿@inject IUserStore<ApplicationUser> _userStore
+@using Coop.Web.Data
 @using Microsoft.AspNetCore.Identity
 @using System.Threading
-@inject IUserStore<ApplicationUser> _userStore
 @model Coop.Application.Realty.RealtyFullViewModel
 
 @{
@@ -16,7 +16,7 @@
             <h3 class="pb-4 mb-4 fst-italic">
                 Подтвердите удаление объекта
             </h3>
-                        
+
             <ul class="list-unstyled">
                 <li>Номер: @Model.Number</li>
                 <li>Задолженность: @Model.CurrentDebt</li>

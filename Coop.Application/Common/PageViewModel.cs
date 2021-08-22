@@ -5,24 +5,24 @@ namespace Coop.Application.Common
     public class PageViewModel<T>
     {
         /// <summary>
-        /// Текущая страница.
+        ///     Текущая страница.
         /// </summary>
         public int CurrentPage { get; set; }
-        
+
         /// <summary>
-        /// Всего страниц.
+        ///     Всего страниц.
         /// </summary>
         public int TotalPages { get; set; }
-        
+
         /// <summary>
-        /// Размер страницы.
+        ///     Размер страницы.
         /// </summary>
         public int PageSize { get; set; }
 
         /// <summary>
-        /// Элементы страницы.
+        ///     Элементы страницы.
         /// </summary>
-        public List<T> Items { get; set; } = new List<T>();
+        public List<T> Items { get; set; } = new();
 
         public static int CalculateTotalPages(int pageSize, int totalItems)
         {

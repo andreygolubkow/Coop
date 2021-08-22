@@ -3,30 +3,28 @@
 namespace Coop.Application.Articles
 {
     /// <summary>
-    /// Одна новости из списка новостей.
+    ///     Одна новости из списка новостей.
     /// </summary>
     public class ArticleListItemViewModel
     {
         /// <summary>
-        /// Идентификатор новости.
+        ///     Идентификатор новости.
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
-        /// Заголовок.
+        ///     Заголовок.
         /// </summary>
         public string Title { get; set; } = string.Empty;
-        
+
         /// <summary>
-        /// Дата-время создания новости.
+        ///     Дата-время создания новости.
         /// </summary>
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Текст новости.
+        ///     Текст новости.
         /// </summary>
         public string Details { get; set; } = string.Empty;
-
-        
     }
 }

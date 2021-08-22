@@ -2,8 +2,7 @@
 
 namespace Coop.Application.Realty
 {
-    public class RealtyListViewModel: PageViewModel<RealtyListItemViewModel>
+    public class RealtyListViewModel : PageViewModel<RealtyListItemViewModel>
     {
-        
     }
 }

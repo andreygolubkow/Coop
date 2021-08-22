@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +11,10 @@ using Coop.Domain.Common;
 
 namespace Coop.Application.Articles
 {
-    public class ArticleService: IArticleService
+    public class ArticleService : IArticleService
     {
-        private readonly IRepository<Article> _repository;
         private readonly IMapper _mapper;
+        private readonly IRepository<Article> _repository;
 
         public ArticleService(IRepository<Article> repository, IMapper mapper)
         {
@@ -41,26 +40,20 @@ namespace Coop.Application.Articles
         public async Task UpdateAsync(UpdateArticleInputModel model, CancellationToken token)
         {
             var article = _repository.Find(model.Id);
-            Guard.Against.Null(article, nameof(model.Id),"Не найдена новость");
-            
+            Guard.Against.Null(article, nameof(model.Id), "Не найдена новость");
+
             article.Update(model.Text, model.Title);
             _repository.Update(article);
-            if (!await _repository.SaveAsync(token))
-            {
-                throw new DatabaseException();
-            }
+            if (!await _repository.SaveAsync(token)) throw new DatabaseException();
         }
 
         public async Task ArchiveAsync(Guid id, CancellationToken token)
         {
             var article = _repository.Find(id);
-            Guard.Against.Null(article, nameof(id),"Не найдена новость");
+            Guard.Against.Null(article, nameof(id), "Не найдена новость");
             article.Archive();
             _repository.Update(article);
-            if (!await _repository.SaveAsync(token))
-            {
-                throw new DatabaseException();
-            }
+            if (!await _repository.SaveAsync(token)) throw new DatabaseException();
         }
 
 
@@ -70,13 +63,13 @@ namespace Coop.Application.Articles
                 .Where(a => a.IsActive)
                 .OrderBy(a => a.CreatedAt);
             var count = articles.Count();
-            return new ArticleListViewModel()
+            return new ArticleListViewModel
             {
                 PageSize = pageSize,
                 CurrentPage = page,
                 TotalPages = count / pageSize + (count % pageSize == 0 ? 0 : 1),
                 Items = articles
-                    .Skip((page-1) * pageSize)
+                    .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ProjectTo<ArticleListItemViewModel>(_mapper.ConfigurationProvider)
                     .ToList()

@@ -7,7 +7,7 @@ namespace Coop.Application.Articles
         public static IServiceCollection AddArticleFeature(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Mappings));
-           return services.AddTransient<IArticleService, ArticleService>();
+            return services.AddTransient<IArticleService, ArticleService>();
         }
     }
 }

@@ -6,10 +6,10 @@ using JetBrains.Annotations;
 
 namespace Coop.Domain.Common
 {
-    public interface IRepository<T> where T:class
+    public interface IRepository<T> where T : class
     {
         IQueryable<T> GetAll();
-        
+
         Task AddAsync(T entity, CancellationToken token);
 
         void Update(T entity);

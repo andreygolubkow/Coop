@@ -6,7 +6,7 @@ namespace Coop.Application.Advertisement
 {
     public interface IAdvertisementService
     {
-        AdvertisementListViewModel GetPage(int page,int pageSize);
+        AdvertisementListViewModel GetPage(int page, int pageSize);
 
         AdvertisementListViewModel GetNewAdvertisements(int page, int pageSize);
 
@@ -15,10 +15,10 @@ namespace Coop.Application.Advertisement
         Task CreateAdvertisementAsync(CreateAdvertisementInputModel model, CancellationToken token);
 
         Guid GetOwnerId(Guid adId);
-        
+
         Task ArchiveAsync(Guid adId, CancellationToken token);
-        
-        
+
+
         Task PublishAsync(Guid adId, Guid userId, CancellationToken token);
     }
 }

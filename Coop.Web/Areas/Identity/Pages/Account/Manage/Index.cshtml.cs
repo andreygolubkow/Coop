@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +6,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Coop.Web.Areas.Identity.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+    public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
@@ -24,18 +21,9 @@ namespace Coop.Web.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
+        [TempData] public string StatusMessage { get; set; }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        public class InputModel
-        {
-            [Phone]
-            [Display(Name = "Номер телефона")]
-            public string PhoneNumber { get; set; }
-        }
+        [BindProperty] public InputModel Input { get; set; }
 
         private async Task LoadAsync(IdentityUser user)
         {
@@ -54,9 +42,7 @@ namespace Coop.Web.Areas.Identity.Pages.Account.Manage
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
-            {
                 return NotFound($"Пользователь с таким идентификатором не найден: '{_userManager.GetUserId(User)}'.");
-            }
 
             await LoadAsync(user);
             return Page();
@@ -66,9 +52,7 @@ namespace Coop.Web.Areas.Identity.Pages.Account.Manage
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
-            {
                 return NotFound($"Пользователем с таким идентификатором не найден:'{_userManager.GetUserId(User)}'.");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -90,6 +74,13 @@ namespace Coop.Web.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Ваш профиль обновлён";
             return RedirectToPage();
+        }
+
+        public class InputModel
+        {
+            [Phone]
+            [Display(Name = "Номер телефона")]
+            public string PhoneNumber { get; set; }
         }
     }
 }

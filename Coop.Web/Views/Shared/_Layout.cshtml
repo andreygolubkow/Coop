@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Coop.Web.Data
+﻿@using Coop.Web.Data
+@using Microsoft.AspNetCore.Identity
 @using Coop.Application.AdminNotes
 @inject UserManager<ApplicationUser> _userManager
 @inject ICompanyInformation _companyInformation
@@ -17,11 +17,11 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a asp-controller="Home" asp-action="Index" 
+            <a asp-controller="Home" asp-action="Index"
                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                 <img alt="Логотип МЕТАЛЛИСТ-4" class="bi me-2" width="40" height="32" src="~/img/logo.png"/>
-                    <span class="fs-4">МЕТАЛЛИСТ-4</span>
-                  </a>
+                <span class="fs-4">МЕТАЛЛИСТ-4</span>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -44,10 +44,18 @@
                                 Администрация
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a asp-controller="GarageAdmin" asp-action="Realty" class="dropdown-item">Имущество</a></li>
-                                <li><a class="dropdown-item" href="#">Загрузка платежей</a></li>
-                                <li><a class="dropdown-item" href="#">Загрузка задолженностей</a></li>
-                                <li><a class="dropdown-item" href="#">Работа с пользователями</a></li>
+                                <li>
+                                    <a asp-controller="GarageAdmin" asp-action="Realty" class="dropdown-item">Имущество</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="GarageAdmin" asp-action="UploadPays">Загрузка платежей</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="GarageAdmin" asp-action="UploadDebts">Загрузка задолженностей</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Работа с пользователями</a>
+                                </li>
                             </ul>
                         </li>
                     }
@@ -71,6 +79,6 @@
 <script src="~/lib/jquery/jquery-3.6.0.min.js"></script>
 <script src="~/lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>

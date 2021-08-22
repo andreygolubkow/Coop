@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coop.Web.Controllers
 {
-    [Route("[controller]/[action]")] 
+    [Route("[controller]/[action]")]
     public class ArticleController : Controller
     {
         private readonly IArticleService _articleService;
@@ -33,15 +33,9 @@ namespace Coop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateArticleInputModel model, CancellationToken token)
         {
-            if (model == null)
-            {
-                ModelState.AddModelError("","Введите информацию для публикации");
-            }
+            if (model == null) ModelState.AddModelError("", "Введите информацию для публикации");
 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
             var user = await _userManager.GetUserAsync(User);
             try
             {
@@ -50,12 +44,13 @@ namespace Coop.Web.Controllers
             }
             catch (DatabaseException)
             {
-                ModelState.AddModelError("","Не удалось сохранить новость, обратитесь к администратору");
+                ModelState.AddModelError("", "Не удалось сохранить новость, обратитесь к администратору");
             }
             catch (ArgumentException e)
             {
-                ModelState.AddModelError("",e.Message);
+                ModelState.AddModelError("", e.Message);
             }
+
             return View();
         }
 
@@ -64,22 +59,17 @@ namespace Coop.Web.Controllers
         public IActionResult Update(Guid id)
         {
             var article = _articleService.Get(id);
-            if (article == null)
-            {
-                return NotFound("Такая новость не найдена");
-            }
-            
+            if (article == null) return NotFound("Такая новость не найдена");
+
             return View(article);
         }
-        
+
         [Authorize(Roles = Constants.ADMIN_ROLE)]
         [HttpPost("{id:guid}")]
-        public async Task<IActionResult> Update([FromRoute]Guid id, [FromForm]UpdateArticleInputModel model, CancellationToken token)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromForm] UpdateArticleInputModel model,
+            CancellationToken token)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             try
             {
@@ -88,15 +78,15 @@ namespace Coop.Web.Controllers
             }
             catch (DatabaseException e)
             {
-                ModelState.AddModelError("","Не удалось сохранить новость");
+                ModelState.AddModelError("", "Не удалось сохранить новость");
             }
             catch (InvalidOperationException e)
             {
-                ModelState.AddModelError("",e.Message);
+                ModelState.AddModelError("", e.Message);
             }
             catch (ArgumentException e)
             {
-                ModelState.AddModelError("",e.Message);
+                ModelState.AddModelError("", e.Message);
             }
 
             return View(model);
@@ -129,6 +119,7 @@ namespace Coop.Web.Controllers
             {
                 return View(model: e.Message);
             }
+
             return RedirectToAction("Index", "Home");
         }
     }

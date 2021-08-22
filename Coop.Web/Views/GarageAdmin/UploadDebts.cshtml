@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Загрузка платежей";
+    ViewBag.Title = "Загрузка задолженностей";
     Layout = "_Layout";
 }
 <div class="container">
@@ -7,22 +7,21 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    Загрузите информацию о платежах
+                    Загрузите информацию о задолженностях
                 </div>
                 <div class="card-body">
                     <p>Необходима таблица Excel со столбцами:</p>
                     <ul class="list-unstyled">
                         <li>Номер - номер помещения/объекта/гаража</li>
-                        <li>ФИО - Фамилия имя и отчество плательщика</li>
-                        <li>Дата - Дата и время платежа</li>
-                        <li>Сумма - сумма платежа</li>
+                        <li>Сумма - сумма задолженности</li>
                     </ul>
+                    <i>Записи не должны повторяться. В случае повторения - актуальной станет последняя запись.</i>
                     <form method="post">
                         <div>
                             <label for="uploadbox" class="form-label">Файл для загрузки</label>
                             <input class="form-control form-control-lg" id="uploadbox" type="file">
                         </div>
-                        <button type="submit" class="btn btn-success mt-1">Подтвердить загрузку платежей</button>
+                        <button type="submit" class="btn btn-success mt-1">Подтвердить загрузку задолженностей</button>
                     </form>
                 </div>
             </div>

@@ -3,12 +3,9 @@
 namespace Coop.Application.Common
 {
     /// <summary>
-    /// Проблемы с БД.
+    ///     Проблемы с БД.
     /// </summary>
-    public class DatabaseException: Exception
+    public class DatabaseException : Exception
     {
-        public DatabaseException()
-        {
-        }
     }
 }

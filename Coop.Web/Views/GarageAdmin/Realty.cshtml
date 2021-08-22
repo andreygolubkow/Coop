@@ -23,31 +23,41 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row mt-3">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        Имущество кооператива
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Номер</th>
-                              <th scope="col">Владелец</th>
-                              <th scope="col">Задолженность</th>
-                              <th scope="col">Действия</th>
-                            </tr>
-                          </thead>
-                          <tbody id="realty-table-body">
-                            
-                          </tbody>
-                        </table>
-                    </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    Имущество кооператива
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Номер</th>
+                            <th scope="col">Владелец</th>
+                            <th scope="col">Задолженность</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody id="realty-table-body">
+
+                        </tbody>
+                    </table>
+                    <nav aria-label="Навигация">
+                        <ul id="pagination" class="pagination">
+                            <li id="goBack"  class="page-item">
+                                <a class="page-link" href="#">Назад</a>
+                            </li>
+                            <li id="goForward" class="page-item">
+                                <a  class="page-link" href="#">Вперед</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 @section Scripts
@@ -60,12 +70,19 @@
         const addRealtyForm = $("#add-realty-form");
         const addRealtyButton = $("#add-realty-button");
         
+        const goForward = $("#goForward");
+        const goBack = $("#goBack");
+        
         const realtyTableBody = $("#realty-table-body");
         let currentPage = 1;
+        let canGoBack = false;
+        let canGoForward = false;
         
         function GetTableRow(id,number,owner,balance){
             return `<tr>
-                        <th scope="row">${number}</th>
+                        <th scope="row">
+                            <a href="@Url.Action("RealtyFullInfo")?realtyId=${id}">${number}</a>
+                        </th>
                         <td>${owner}</td>
                         <td>${balance}</td>
                         <td>
@@ -97,10 +114,29 @@
               .done(function( msg ) {
                 addResult.attr("class","text-success");
                 addResult.html(msg);
+                LoadRealtyPage(currentPage);
               })
               .always(function() {
                   addRealtyButton.removeClass("disabled");
                 });
+        }
+        
+        function RefreshPageControls(currentPage, totalPages){
+            canGoBack = currentPage>1;
+            canGoForward = currentPage < totalPages;
+            
+            if (canGoForward){
+                goForward.removeClass("disabled");
+            } else
+            {
+                goForward.addClass("disabled");
+            }
+            
+            if (canGoBack) {
+                goBack.removeClass("disabled");
+            } else {
+                goBack.addClass("disabled");
+            }
         }
         
         function LoadRealtyPage(pageNumber){
@@ -124,6 +160,7 @@
             .done(function( data ) {
                 realtyTableBody.html("");
                 realtyTableBody.append(data.items.map(i => GetTableRow(i.id,i.inventoryNumber,"","")));
+                RefreshPageControls(data.currentPage, data.totalPages);
             })
             .always(function() {    
             }); 
@@ -135,7 +172,20 @@
                 e.preventDefault();
                 SendAddRealty();
             });
+           goBack.on('click', e => {
+               e.preventDefault();
+               if (goBack.hasClass("disabled")) return;
+               currentPage--;
+               LoadRealtyPage(currentPage);
+           });
+           goForward.on('click', e => {
+                          e.preventDefault();
+                          if (goForward.hasClass("disabled")) return;
+                          currentPage++;
+                          LoadRealtyPage(currentPage);
+                      });
             LoadRealtyPage(currentPage);
         });
+        
     </script>
 }

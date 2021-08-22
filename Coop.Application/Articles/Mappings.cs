@@ -3,7 +3,7 @@ using Coop.Domain.Articles;
 
 namespace Coop.Application.Articles
 {
-    public class Mappings: Profile
+    public class Mappings : Profile
     {
         public Mappings()
         {

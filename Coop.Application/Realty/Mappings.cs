@@ -5,7 +5,7 @@ using AutoMapper;
 
 namespace Coop.Application.Realty
 {
-    public class Mappings: Profile
+    public class Mappings : Profile
     {
         public Mappings()
         {
@@ -14,7 +14,7 @@ namespace Coop.Application.Realty
                     r => r.Id))
                 .ForMember(r => r.InventoryNumber, m => m.MapFrom(
                     r => r.InventoryNumber))
-                .ForMember(r => r.OwnerId,m => m.MapFrom(
+                .ForMember(r => r.OwnerId, m => m.MapFrom(
                     r => r.GetCurrentOwnerId()));
 
             CreateMap<Domain.Realties.Realty, RealtyFullViewModel>()
@@ -23,14 +23,14 @@ namespace Coop.Application.Realty
                 .ForMember(r => r.Number, m => m.MapFrom(
                     r => r.InventoryNumber))
                 .ForMember(r => r.OwnerId, m => m.MapFrom(
-                    r => (r.Owners == null || r.Owners.Count == 0)
+                    r => r.Owners == null || r.Owners.Count == 0
                         ? Guid.Empty
                         : r.Owners.First(d => d.TransferDate == r.Owners.Max(rd => rd.TransferDate)).UserId))
                 .ForMember(r => r.CurrentDebt, m => m.MapFrom(
-                    r => (r.Debts == null || r.Debts.Count == 0)
+                    r => r.Debts == null || r.Debts.Count == 0
                         ? "Нет данных"
-                        : r.Debts.First(d => d.DateTime == r.Debts.Max(rd => rd.DateTime)).Sum.ToString(CultureInfo.InvariantCulture)));
-            
+                        : r.Debts.First(d => d.DateTime == r.Debts.Max(rd => rd.DateTime)).Sum
+                            .ToString(CultureInfo.InvariantCulture)));
         }
     }
 }

@@ -13,8 +13,8 @@
             @Html.ValidationSummary(false)
             <form asp-action="Create" method="post">
                 <div class="mb-3">
-                                    <span class="text-black-50">Обратите внимание, объявление будет опубликовано после одобрения администрацией</span>
-                                </div>
+                    <span class="text-black-50">Обратите внимание, объявление будет опубликовано после одобрения администрацией</span>
+                </div>
                 <div class="mb-3">
                     <label for="ad-title" class="form-label">Заголовок</label>
                     @Html.TextBoxFor(m => m.Title, new

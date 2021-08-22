@@ -3,11 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Coop.Domain.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Coop.Web.Data
 {
-    public class RepositoryBase<T>: IRepository<T> where T : class
+    public class RepositoryBase<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
 
@@ -15,7 +14,7 @@ namespace Coop.Web.Data
         {
             _context = context;
         }
-        
+
         public IQueryable<T> GetAll()
         {
             return _context.Set<T>();
@@ -43,7 +42,7 @@ namespace Coop.Web.Data
 
         public async Task<bool> SaveAsync(CancellationToken token)
         {
-            return (await _context.SaveChangesAsync(token)) != 0;
+            return await _context.SaveChangesAsync(token) != 0;
         }
-    } 
+    }
 }

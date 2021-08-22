@@ -2,7 +2,7 @@
 
 namespace Coop.Application.Articles
 {
-    public class ArticleListViewModel: PageViewModel<ArticleListItemViewModel>
+    public class ArticleListViewModel : PageViewModel<ArticleListItemViewModel>
     {
     }
 }

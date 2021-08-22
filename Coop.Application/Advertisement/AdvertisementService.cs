@@ -10,10 +10,10 @@ using Coop.Domain.Common;
 
 namespace Coop.Application.Advertisement
 {
-    public class AdvertisementService: IAdvertisementService
+    public class AdvertisementService : IAdvertisementService
     {
-        private readonly IRepository<Domain.Advertisements.Advertisement> _repository;
         private readonly IMapper _mapper;
+        private readonly IRepository<Domain.Advertisements.Advertisement> _repository;
 
         public AdvertisementService(IRepository<Domain.Advertisements.Advertisement> repository,
             IMapper mapper)
@@ -29,7 +29,7 @@ namespace Coop.Application.Advertisement
                 .Where(a => a.IsActive && a.IsPublished)
                 .OrderBy(a => a.CreatedAt);
             var count = ads.Count();
-            return new AdvertisementListViewModel()
+            return new AdvertisementListViewModel
             {
                 CurrentPage = page,
                 PageSize = pageSize,
@@ -47,7 +47,7 @@ namespace Coop.Application.Advertisement
                 .Where(a => a.IsActive && !a.IsPublished)
                 .OrderBy(a => a.CreatedAt);
             var count = ads.Count();
-            return new AdvertisementListViewModel()
+            return new AdvertisementListViewModel
             {
                 CurrentPage = page,
                 PageSize = pageSize,
@@ -66,7 +66,7 @@ namespace Coop.Application.Advertisement
                 .Where(a => a.AuthorId == userId)
                 .OrderBy(a => a.CreatedAt);
             var count = ads.Count();
-            return new AdvertisementListViewModel()
+            return new AdvertisementListViewModel
             {
                 CurrentPage = page,
                 PageSize = pageSize,
@@ -96,13 +96,13 @@ namespace Coop.Application.Advertisement
         {
             var ad = _repository.Find(adId);
             Guard.Against.Null(ad, "Объявление не найдено");
-            
+
             ad.Archive();
             _repository.Update(ad);
             if (!await _repository.SaveAsync(token)) throw new DatabaseException();
         }
-        
-        
+
+
         public async Task PublishAsync(Guid adId, Guid userId, CancellationToken token)
         {
             var ad = _repository.Find(adId);
