@@ -31,7 +31,7 @@ namespace Coop.Web.Controllers
         public async Task<IActionResult> GetPayImage([FromQuery] string subject, [FromQuery] int sum,[FromQuery] string name)
         {
             
-            var code = _qrPay.GenerateCode($"{name} {subject}", sum);
+            var code = _qrPay.GenerateCode($"{name} {subject}", sum*100);//сумма в копейках
             var bytes = BitmapToBytes(code);
             var formatted = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(bytes));
             return Ok(formatted);
