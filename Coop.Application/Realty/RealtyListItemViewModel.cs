@@ -8,6 +8,11 @@ namespace Coop.Application.Realty
 
         public string InventoryNumber { get; set; }
 
+        /// <summary>
+        /// Задолженность в формате строки
+        /// </summary>
+        public string Balance { get; set; }
+        
         public Guid? OwnerId { get; set; }
     }
 }

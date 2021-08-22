@@ -14,6 +14,8 @@ namespace Coop.Application.Realty
                     r => r.Id))
                 .ForMember(r => r.InventoryNumber, m => m.MapFrom(
                     r => r.InventoryNumber))
+                .ForMember(r => r.Balance, m => m.MapFrom(
+                    r => r.Debts != null && r.Debts.Any()? r.Debts.FirstOrDefault(d=>d.DateTime==r.Debts.Max(rd=>rd.DateTime)).Sum.ToString():"Нет данных"))
                 .ForMember(r => r.OwnerId, m => m.MapFrom(
                     r => r.GetCurrentOwnerId()));
 

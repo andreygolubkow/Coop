@@ -14,5 +14,9 @@ namespace Coop.Application.Realty
 
         public Task Archive(Guid realty, CancellationToken token);
         public Task SetOwner(Guid realtyId, Guid ownerId, CancellationToken token);
+
+        public Task SetDebt(Guid realtyId, decimal amount, CancellationToken token);
+
+        public Guid? FindActiveIdByName(string inventoryNumber);
     }
 }

@@ -5,13 +5,14 @@
 @using Microsoft.AspNetCore.Identity
 @model Coop.Application.Articles.ArticleListViewModel
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Главная";
 }
 
 <div class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <div class="col-md-12 px-0">
-            <h1 class="display-6 fst-italic">Проверить задолженность и оплатить</h1>
+            <h1 class="display-6 fst-italic">Сформировать QR код для оплаты</h1>
         </div>
         @if (User.IsInRole(Constants.USER_ROLE) || User.IsInRole(Constants.ADMIN_ROLE))
         {
@@ -22,6 +23,12 @@
                             <div class="input-group">
                                 <div class="input-group-text">№ гаража</div>
                                 <input type="text" class="form-control" id="input-garage-number" placeholder="Например, 121">
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                <div class="input-group-text">Сумма в рублях</div>
+                                <input type="number" class="form-control" id="input-pay-sum" placeholder="1000">
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6 col-lg-6">
@@ -42,7 +49,7 @@
                                          asp-show-refresh-button="false"/>
                         </div>
                         <div class="col-12">
-                            <button id="button-check-garage" type="submit" class="btn btn-primary">Проверить задолженность</button>
+                            <button id="button-check-garage" type="submit" class="btn btn-primary">Сформировать</button>
                         </div>
                     </form>
                 </div>
@@ -52,7 +59,10 @@
                              width="150"
                              height="150"
                              src="~/img/qr-code.png" class="figure-img img-fluid rounded" alt="QR код">
-                        <figcaption class="figure-caption">Для получения QR кода проверьте задолженность</figcaption>
+                        <figcaption class="figure-caption">
+                            Узнать задолженность вы можете на странице имущетсва
+                            <a asp-controller="Realty" asp-action="Index">Перейти</a>
+                        </figcaption>
                     </figure>
                     <!--<p class="text-start">
                         <a href="#">Оплатить картой через банк</a>
@@ -64,7 +74,7 @@
         {
             <div class="row mb-2">
                 <div class="col-md-6 p-3">
-                    <p>Выполните вход в учетную запись и получить возможность оплатить членский взнос с помощью QR кода</p>
+                    <p>Выполните вход в учетную запись и получить возможность создать QR код для оплаты</p>
                 </div>
             </div>
         }
@@ -165,7 +175,9 @@
 {
     <script type="text/javascript">
         const payFuncUrl = `@Url.ActionLink("GetPayImage", "Payment")`;
+       
         const garageNumInput = $("#input-garage-number");
+        const paySumInput = $("#input-pay-sum");
         const garageCheckButton = $("#button-check-garage");
         const garagePayImg = $("#img-garage-pay");
         
@@ -173,7 +185,7 @@
             garageCheckButton.click((e) => {
                e.preventDefault();
                let garage = garageNumInput.val();
-               let url = `${payFuncUrl}?subject=Оплата услуг обслуживания гаража ${garage}&sum=${100}`;
+               let url = `${payFuncUrl}?subject=членский взнос за ${garage}&sum=${paySumInput.val()}`;
                $.ajax({
                  url: url,
                  beforeSend: function( xhr ) {

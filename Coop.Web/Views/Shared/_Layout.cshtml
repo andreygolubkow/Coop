@@ -34,9 +34,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Advertisement" asp-action="Index">Объявления</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Realty" asp-action="Index">Имущество</a>
-                    </li>
+                    @if (User != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Realty" asp-action="Index">Имущество</a>
+                        </li>
+                    }
                     @if (Context.User.IsInRole(Constants.ADMIN_ROLE))
                     {
                         <li class="nav-item dropdown">

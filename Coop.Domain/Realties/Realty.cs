@@ -73,9 +73,12 @@ namespace Coop.Domain.Realties
             return owner;
         }
 
-        public void SetBalance(decimal balance, DateTimeOffset balanceTimestamp)
+        public RealtyDebt SetDebt(decimal debt, DateTime balanceTimestamp)
         {
             if (!IsActive) throw new InvalidOperationException("Объект в архиве и для него нельзя установить баланс");
+            var realtyDebt = new RealtyDebt(balanceTimestamp, debt);
+            Debts.Add(realtyDebt);
+            return realtyDebt;
         }
 
         public void AddPay(DateTimeOffset dateTime, decimal money)

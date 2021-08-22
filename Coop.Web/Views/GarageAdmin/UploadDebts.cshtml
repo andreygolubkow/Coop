@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UploadDebtViewModel
+@{
     ViewBag.Title = "Загрузка задолженностей";
     Layout = "_Layout";
 }
@@ -10,16 +11,27 @@
                     Загрузите информацию о задолженностях
                 </div>
                 <div class="card-body">
+
+                    @if (Model != null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(Model.ParserError))
+                        {
+                            <div class="alert alert-danger">
+                                @Model.ParserError
+                            </div>
+                        }
+                    }
+
                     <p>Необходима таблица Excel со столбцами:</p>
                     <ul class="list-unstyled">
                         <li>Номер - номер помещения/объекта/гаража</li>
                         <li>Сумма - сумма задолженности</li>
                     </ul>
                     <i>Записи не должны повторяться. В случае повторения - актуальной станет последняя запись.</i>
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <div>
                             <label for="uploadbox" class="form-label">Файл для загрузки</label>
-                            <input class="form-control form-control-lg" id="uploadbox" type="file">
+                            <input class="form-control form-control-lg" name="file" id="uploadbox" type="file">
                         </div>
                         <button type="submit" class="btn btn-success mt-1">Подтвердить загрузку задолженностей</button>
                     </form>
@@ -27,4 +39,27 @@
             </div>
         </div>
     </div>
+    @if (Model != null && Model.Result != null && Model.Result.Count > 0)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Результаты загрузки
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+
+                            @foreach (var result in Model.Result)
+                            {
+                                <li>@result</li>
+                            }
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
 </div>

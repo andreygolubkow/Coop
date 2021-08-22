@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Coop.Application.Common;
 using Coop.Domain.Common;
+using Coop.Domain.Realties;
 using Microsoft.EntityFrameworkCore;
 
 namespace Coop.Application.Realty
@@ -13,15 +14,18 @@ namespace Coop.Application.Realty
     public class RealtyService : IRealtyService
     {
         private readonly IMapper _mapper;
+        private readonly IRepository<RealtyDebt> _debtsRepository;
         private readonly IRepository<Domain.Realties.RealtyOwner> _realtyOwnerRepository;
         private readonly IRepository<Domain.Realties.Realty> _repository;
 
         public RealtyService(IRepository<Domain.Realties.Realty> repository,
-            IRepository<Domain.Realties.RealtyOwner> realtyOwnerRepository, IMapper mapper)
+            IRepository<Domain.Realties.RealtyOwner> realtyOwnerRepository, IMapper mapper,
+            IRepository<RealtyDebt> debtsRepository)
         {
             _repository = repository;
             _realtyOwnerRepository = realtyOwnerRepository;
             _mapper = mapper;
+            _debtsRepository = debtsRepository;
         }
 
         public RealtyListViewModel GetPage(int pageSize, int pageNum)
@@ -81,6 +85,24 @@ namespace Coop.Application.Realty
             item.Archive();
             _repository.Update(item);
             if (!await _repository.SaveAsync(token)) throw new DatabaseException();
+        }
+        
+        public async Task SetDebt(Guid realtyId, decimal amount, CancellationToken token)
+        {
+            var realty = _repository.GetAll()
+                .Include(o => o.Owners)
+                .FirstOrDefault(r => r.Id == realtyId);
+            if (realty == null) throw new ArgumentException("Объект не найден");
+            var record = realty.SetDebt(amount, DateTime.Now);
+            await _debtsRepository.AddAsync(record, token);
+            _repository.Update(realty);
+            if (!await _repository.SaveAsync(token)) throw new DatabaseException();
+        }
+
+        public Guid? FindActiveIdByName(string inventoryNumber)
+        {
+            return _repository.GetAll().AsNoTracking().Where(r => r.IsActive)
+                .FirstOrDefault(r => r.InventoryNumber == inventoryNumber)?.Id;
         }
     }
 }

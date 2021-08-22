@@ -35,7 +35,6 @@
                         <thead>
                         <tr>
                             <th scope="col">Номер</th>
-                            <th scope="col">Владелец</th>
                             <th scope="col">Задолженность</th>
                             <th scope="col">Действия</th>
                         </tr>
@@ -78,12 +77,11 @@
         let canGoBack = false;
         let canGoForward = false;
         
-        function GetTableRow(id,number,owner,balance){
+        function GetTableRow(id,number,balance){
             return `<tr>
                         <th scope="row">
                             <a href="@Url.Action("RealtyFullInfo")?realtyId=${id}">${number}</a>
                         </th>
-                        <td>${owner}</td>
                         <td>${balance}</td>
                         <td>
                             <a href="@Url.Action("RequestChangeOwner")?realtyId=${id}">Изменить владельца</a>
@@ -142,7 +140,7 @@
         function LoadRealtyPage(pageNumber){
             $.ajax({
                 method: "GET",
-                url: getRealtyPageUrl+currentPage,
+                url: getRealtyPageUrl+pageNumber,
                 beforeSend: function( xhr ) {
                   
                 },
@@ -159,7 +157,7 @@
             })
             .done(function( data ) {
                 realtyTableBody.html("");
-                realtyTableBody.append(data.items.map(i => GetTableRow(i.id,i.inventoryNumber,"","")));
+                realtyTableBody.append(data.items.map(i => GetTableRow(i.id,i.inventoryNumber,i.balance)));
                 RefreshPageControls(data.currentPage, data.totalPages);
             })
             .always(function() {    
