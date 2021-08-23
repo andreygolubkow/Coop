@@ -7,8 +7,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <div class="card">
+        <div class="col-12 mb-1">
+            <div class="card ">
                 <div class="card-header">
                     Объект №@Model.Realty.Number
                     <a asp-action="Realty">Вернуться к просмотру всех объектов</a>
@@ -20,7 +20,14 @@
                     </p>
                     <p>
                         <b>Текущий владелец:</b>
-                        <i>@Model.Users[Model.Realty.OwnerId]</i>
+                        @if (Model.Realty.OwnerId != Guid.Empty && Model.Users.ContainsKey(Model.Realty.OwnerId))
+                        {
+                            <i>@Model.Users[Model.Realty.OwnerId]</i>
+                        }
+                        else
+                        {
+                            <i>Пользователь не найден</i>
+                        }
                     </p>
                     <b>История владения</b>
                     <ul class="list-unstyled">
@@ -29,8 +36,36 @@
                             <li>с @owner.TransferDate.ToString("dd.MM.yyyy") @Model.Users[owner.OwnerId]</li>
                         }
                     </ul>
-
-
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    Платежи
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Плательщик</th>
+                            <th>Сумма</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var pay in Model.Realty.Pays.OrderBy(p => p.DateTime))
+                        {
+                            <tr>
+                                <td>@pay.DateTime.ToString("dd.MM.yyyy")</td>
+                                <td>@pay.PayerName</td>
+                                <td>@pay.Sum</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

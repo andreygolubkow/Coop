@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using AutoMapper;
+using Coop.Domain.Realties;
 
 namespace Coop.Application.Realty
 {
@@ -9,6 +10,14 @@ namespace Coop.Application.Realty
     {
         public Mappings()
         {
+            CreateMap<RealtyPay, RealtyPayViewModel>()
+                .ForMember(r => r.Sum, m => m.MapFrom(
+                    r => r.PaySum))
+                .ForMember(r => r.DateTime, m => m.MapFrom(
+                    r => r.DateTime))
+                .ForMember(r => r.PayerName, m => m.MapFrom(
+                    r => r.PayerName));
+
             CreateMap<Domain.Realties.Realty, RealtyListItemViewModel>()
                 .ForMember(r => r.Id, m => m.MapFrom(
                     r => r.Id))
@@ -32,7 +41,9 @@ namespace Coop.Application.Realty
                     r => r.Debts == null || r.Debts.Count == 0
                         ? "Нет данных"
                         : r.Debts.First(d => d.DateTime == r.Debts.Max(rd => rd.DateTime)).Sum
-                            .ToString(CultureInfo.InvariantCulture)));
+                            .ToString(CultureInfo.InvariantCulture)))
+                .ForMember(r => r.Pays, m => m.MapFrom(
+                    r => r.Pays));
         }
     }
 }

@@ -15,17 +15,19 @@ namespace Coop.Application.Realty
     {
         private readonly IMapper _mapper;
         private readonly IRepository<RealtyDebt> _debtsRepository;
+        private readonly IRepository<RealtyPay> _paysRepository;
         private readonly IRepository<Domain.Realties.RealtyOwner> _realtyOwnerRepository;
         private readonly IRepository<Domain.Realties.Realty> _repository;
 
         public RealtyService(IRepository<Domain.Realties.Realty> repository,
             IRepository<Domain.Realties.RealtyOwner> realtyOwnerRepository, IMapper mapper,
-            IRepository<RealtyDebt> debtsRepository)
+            IRepository<RealtyDebt> debtsRepository, IRepository<RealtyPay> paysRepository)
         {
             _repository = repository;
             _realtyOwnerRepository = realtyOwnerRepository;
             _mapper = mapper;
             _debtsRepository = debtsRepository;
+            _paysRepository = paysRepository;
         }
 
         public RealtyListViewModel GetPage(int pageSize, int pageNum)
@@ -92,6 +94,7 @@ namespace Coop.Application.Realty
         {
             var realty = _repository.GetAll()
                 .Include(o => o.Owners)
+                .Include(r => r.Pays)
                 .FirstOrDefault(r => r.Id == realtyId);
             if (realty == null) throw new ArgumentException("Такого объекта нет");
 
@@ -110,7 +113,7 @@ namespace Coop.Application.Realty
         public async Task SetDebt(Guid realtyId, decimal amount, CancellationToken token)
         {
             var realty = _repository.GetAll()
-                .Include(o => o.Owners)
+                .Include(o => o.Debts)
                 .FirstOrDefault(r => r.Id == realtyId);
             if (realty == null) throw new ArgumentException("Объект не найден");
             var record = realty.SetDebt(amount, DateTime.Now);
@@ -123,6 +126,18 @@ namespace Coop.Application.Realty
         {
             return _repository.GetAll().AsNoTracking().Where(r => r.IsActive)
                 .FirstOrDefault(r => r.InventoryNumber == inventoryNumber)?.Id;
+        }
+
+        public async Task AddPay(Guid realtyId, DateTime timestamp, string payerName, decimal payAmount, CancellationToken token)
+        {
+            var realty = _repository.GetAll()
+                .Include(o => o.Pays)
+                .FirstOrDefault(r => r.Id == realtyId);
+            if (realty == null) throw new ArgumentException("Объект не найден");
+            var record = realty.AddPay(timestamp,payAmount, payerName);
+            await _paysRepository.AddAsync(record, token);
+            _repository.Update(realty);
+            if (!await _repository.SaveAsync(token)) throw new DatabaseException();
         }
     }
 }

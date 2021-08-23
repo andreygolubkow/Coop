@@ -170,6 +170,10 @@
                 e.preventDefault();
                 SendAddRealty();
             });
+            $("#add-realty-form").on("submit", e => {
+                e.preventDefault();
+                SendAddRealty();
+            });
            goBack.on('click', e => {
                e.preventDefault();
                if (goBack.hasClass("disabled")) return;

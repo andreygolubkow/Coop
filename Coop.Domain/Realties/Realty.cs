@@ -81,11 +81,13 @@ namespace Coop.Domain.Realties
             return realtyDebt;
         }
 
-        public void AddPay(DateTimeOffset dateTime, decimal money)
+        public RealtyPay AddPay(DateTime dateTime, decimal money, string payerName)
         {
             if (!IsActive) throw new InvalidOperationException("Объект в архиве и для него нельзя установить баланс");
-
             Guard.Against.NegativeOrZero(money, nameof(money), "В сумме платежа разрешены только положительные числа");
+            var pay = new RealtyPay(dateTime, money, payerName);            
+            Pays.Add(pay);
+            return pay;
         }
 
         public Guid? GetCurrentOwnerId()

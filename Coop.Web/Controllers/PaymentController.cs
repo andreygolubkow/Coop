@@ -37,8 +37,6 @@ namespace Coop.Web.Controllers
             return Ok(formatted);
         }
         
-        
-
         private static byte[] BitmapToBytes(Bitmap img)
         {
             using (var stream = new MemoryStream())

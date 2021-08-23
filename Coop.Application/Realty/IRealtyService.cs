@@ -20,5 +20,7 @@ namespace Coop.Application.Realty
         public Task SetDebt(Guid realtyId, decimal amount, CancellationToken token);
 
         public Guid? FindActiveIdByName(string inventoryNumber);
+
+        public Task AddPay(Guid realtyId, DateTime timestamp, string payerName, decimal payAmount, CancellationToken token);
     }
 }

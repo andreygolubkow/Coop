@@ -11,6 +11,7 @@ using Coop.Domain.Common;
 using Coop.Domain.Realties;
 using Coop.Web.Data;
 using Coop.Web.DebtsParser;
+using Coop.Web.PaysParser;
 using DNTCaptcha.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -92,6 +93,7 @@ namespace Coop.Web
             services.AddScoped<IRepository<RealtyPay>, RepositoryBase<RealtyPay>>();
 
             services.AddScoped<IDebtParser, DebtParser>();
+            services.AddScoped<IPaysParser, PaysParser.PaysParser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

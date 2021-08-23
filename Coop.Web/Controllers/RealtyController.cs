@@ -24,7 +24,7 @@ namespace Coop.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            
+            if (user == null) return this.Unauthorized("Пользователь не опознан. Выполните выход, и войдите еще раз");
             return View(_realtyService.GetForUser(user.Id));
         }
 

@@ -10,6 +10,7 @@ using Coop.Application.RealtyOwner;
 using Coop.Web.Data;
 using Coop.Web.DebtsParser;
 using Coop.Web.Models;
+using Coop.Web.PaysParser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -28,14 +29,16 @@ namespace Coop.Web.Controllers
         private readonly IRealtyService _realtyService;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IDebtParser _debtParser;
+        private readonly IPaysParser _paysParser;
 
         public GarageAdminController(IRealtyService realtyService, IRealtyOwnerService realtyOwnerService,
-            IUserStore<ApplicationUser> userStore, IDebtParser debtParser)
+            IUserStore<ApplicationUser> userStore, IDebtParser debtParser, IPaysParser paysParser)
         {
             _realtyService = realtyService;
             _realtyOwnerService = realtyOwnerService;
             _userStore = userStore;
             _debtParser = debtParser;
+            _paysParser = paysParser;
         }
 
         [HttpGet]
@@ -165,6 +168,40 @@ namespace Coop.Web.Controllers
         {
             return View();
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> UploadPays([FromForm] IFormFile file, CancellationToken token)
+        {
+            var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream, token);
+            var viewModel = new UploadResultViewModel();
+            List<PayRecord> pays = null;
+            try
+            {
+                pays=_paysParser.ParseFromStream(memoryStream);
+            }
+            catch (Exception e)
+            {
+                viewModel.ParserError = $"{e.Message}";
+                return View(viewModel);
+            }
+
+            foreach (var payRecord in pays)
+            {
+                try
+                {
+                    var realty = _realtyService.FindActiveIdByName(payRecord.InventoryNumber);
+                    if (realty == null) continue;
+                    await _realtyService.AddPay(realty.Value, payRecord.PayTimestamp,payRecord.PayeerName, payRecord.Amount, token);
+                    viewModel.Result.Add($"{payRecord.PayeerName} оплата {payRecord.Amount} за {payRecord.InventoryNumber} от {payRecord.PayTimestamp:dd.MM.yyyy}");
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+            return View(viewModel);
+        }
 
         [HttpGet]
         public IActionResult UploadDebts()
@@ -177,7 +214,7 @@ namespace Coop.Web.Controllers
         {
             var memoryStream = new MemoryStream();
             await file.CopyToAsync(memoryStream, token);
-            var viewModel = new UploadDebtViewModel();
+            var viewModel = new UploadResultViewModel();
             List<DebtRecord> debts = null;
             try
             {

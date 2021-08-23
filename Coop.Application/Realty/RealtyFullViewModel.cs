@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Coop.Application.Realty
 {
@@ -14,5 +15,7 @@ namespace Coop.Application.Realty
         ///     Текущая задолженность в string т.е. не сделан маппинг в null
         /// </summary>
         public string CurrentDebt { get; set; }
+        
+        public List<RealtyPayViewModel> Pays { get; set; }
     }
 }
