@@ -1,0 +1,45 @@
+﻿@model List<UserShortViewModel>
+
+@{
+    ViewBag.Title = "Пользователи";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    Список пользователей
+                    <a asp-action="CreateUser">Создать пользователя</a>
+                </div>
+
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ФИО</th>
+                            <th scope="col">Адрес</th>
+                            <th scope="col">Телефон</th>
+                        </tr>
+                        </thead>
+                        <tbody id="realty-table-body">
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="UserFullInfo" asp-route-id="@user.Id" asp-controller="GarageAdmin">
+                                        @user.FullName
+                                    </a>
+                                </td>
+                                <td>@user.Address</td>
+                                <td>@user.Phone</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

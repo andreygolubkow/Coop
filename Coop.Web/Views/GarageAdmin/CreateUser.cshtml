@@ -1,0 +1,61 @@
+﻿@model CreateUserViewModel
+
+@{
+    ViewBag.Title = "Создать пользователя";
+    Layout = "_Layout";
+}
+
+<div class="container">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Создать пользователя <a asp-action="Users">Отмена</a>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrWhiteSpace(Model.Error))
+                {
+                    <div class="alert alert-danger">
+                        @Model.Error
+                    </div>
+                }
+                @if (Model.CreatedGuid != Guid.Empty)
+                {
+                    <div class="alert alert-success">
+                        Пользователь добавлен!
+                    </div>
+                }
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="username-input" class="form-label">Имя пользователя</label>
+                        <input type="text" class="form-control" required id="username-input" name="Username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pass-input" class="form-label">Пароль</label>
+                        <input type="password" required class="form-control" id="pass-input" name="Password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fio-input" class="form-label">ФИО</label>
+                        <input type="text" required id="fio-input" class="form-control" name="FullName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address-input" class="form-label">Адрес</label>
+                        <input type="text" required id="address-input" class="form-control" name="Address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-input" class="form-label">Телефон</label>
+                        <input type="text" required id="phone-input" class="form-control" name="Phone">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="IsAdmin" type="checkbox" value="" id="isadmin-checkbox">
+                        <label class="form-check-label" for="isadmin-checkbox">
+                            Является администратором
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-success btn">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -5,9 +5,11 @@ namespace Coop.Web.Data
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
-        public ApplicationUser(string userName, string fullName) : base(userName)
+        public ApplicationUser(string userName, string fullName, string address, string phone) : base(userName)
         {
             FullName = fullName;
+            Address = address;
+            Phone = phone;
         }
 
         public ApplicationUser()
@@ -15,5 +17,10 @@ namespace Coop.Web.Data
         }
 
         public string FullName { get; protected set; }
+        
+        public string Phone { get; protected set; }
+        
+        public string Address { get; protected set; }
+        
     }
 }

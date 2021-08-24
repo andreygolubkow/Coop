@@ -92,6 +92,9 @@ namespace Coop.Web
             services.AddScoped<IRepository<RealtyDebt>, RepositoryBase<RealtyDebt>>();
             services.AddScoped<IRepository<RealtyPay>, RepositoryBase<RealtyPay>>();
 
+            services.AddScoped<IRepository<ApplicationUser>, RepositoryBase<ApplicationUser>>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<IDebtParser, DebtParser>();
             services.AddScoped<IPaysParser, PaysParser.PaysParser>();
         }

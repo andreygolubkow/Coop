@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Coop.Application.Common;
 using Coop.Application.Realty;
 using Coop.Application.RealtyOwner;
+using Coop.Domain.Common;
 using Coop.Web.Data;
 using Coop.Web.DebtsParser;
 using Coop.Web.Models;
@@ -30,15 +31,18 @@ namespace Coop.Web.Controllers
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IDebtParser _debtParser;
         private readonly IPaysParser _paysParser;
+        private readonly IUserService _userService;
 
         public GarageAdminController(IRealtyService realtyService, IRealtyOwnerService realtyOwnerService,
-            IUserStore<ApplicationUser> userStore, IDebtParser debtParser, IPaysParser paysParser)
+            IUserStore<ApplicationUser> userStore, IDebtParser debtParser, IPaysParser paysParser, 
+            IUserService userService)
         {
             _realtyService = realtyService;
             _realtyOwnerService = realtyOwnerService;
             _userStore = userStore;
             _debtParser = debtParser;
             _paysParser = paysParser;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -264,6 +268,62 @@ namespace Coop.Web.Controllers
                 OwnHistory = owners,
                 Users = users
             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Users(CancellationToken token)
+        {
+            var users = _userService.GetUsers();
+            return View(users);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> UserFullInfo(Guid id, CancellationToken token)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateUser()
+        {
+            return View(new CreateUserViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserInputModel model, CancellationToken token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View( new CreateUserViewModel()
+                {
+                    Error = String.Join(" ", ModelState
+                        .Where(r => r.Value.ValidationState == ModelValidationState.Invalid)
+                        .SelectMany(s => s.Value.Errors)),
+                    InputModel = model
+                });
+            }
+
+            try
+            {
+                var guid = await _userService.CreateUserAsync(model, token);
+                await _userService.AddToRole(guid, Constants.USER_ROLE, token);
+                if (model.IsAdmin)
+                {
+                    await _userService.AddToRole(guid, Constants.ADMIN_ROLE, token);
+                }
+                return View(new CreateUserViewModel()
+                {
+                    CreatedGuid = guid
+                });
+            }
+            catch (Exception e)
+            {
+                return View( new CreateUserViewModel()
+                {
+                    Error = e.Message,
+                    InputModel = model
+                });
+            }
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Coop.Web
                     continue;
                 }
 
-                var identityUser = new ApplicationUser(user.Email, "Пользователь")
+                var identityUser = new ApplicationUser(user.Email, "Пользователь", "-","-")
                 {
                     UserName = user.Email,
                     Email = user.Email,
