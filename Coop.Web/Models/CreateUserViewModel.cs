@@ -14,7 +14,8 @@ namespace Coop.Web.Models
 
     public class CreateUserInputModel
     {
-        [Required(ErrorMessage = "Введите имя пользователя")]
+        [EmailAddress(ErrorMessage = "Введите электронную почту в формате user@email.com")]
+        [Required(ErrorMessage = "Введите электронную почту")]
         public string Username { get; set; }
         
         [Required(ErrorMessage = "Введитие ФИО")]

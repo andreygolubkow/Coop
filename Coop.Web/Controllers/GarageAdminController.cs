@@ -280,7 +280,9 @@ namespace Coop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> UserFullInfo(Guid id, CancellationToken token)
         {
-            return View();
+            var user = _userService.GetUser(id);
+            if (user is null) return NotFound("Пользователь не найден");
+            return View(user);
         }
 
         [HttpGet]
@@ -322,6 +324,46 @@ namespace Coop.Web.Controllers
                 {
                     Error = e.Message,
                     InputModel = model
+                });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ResetUserPassword(Guid id)
+        {
+            return View(new ResetUserPasswordViewModel()
+            {
+                Error = string.Empty,
+                UserId = id
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetUserPassword([FromForm] Guid id, [FromForm] string password, CancellationToken token)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                return View(new ResetUserPasswordViewModel()
+                {
+                    UserId = id,
+                    Error = "Не указан пароль"
+                });
+            }
+
+            try
+            {
+                await _userService.ResetUserPasswordAsync(id, password, token);
+                return RedirectToAction("UserFullInfo", new
+                {
+                    id = id
+                });
+            }
+            catch (Exception e)
+            {
+                return View(new ResetUserPasswordViewModel()
+                {
+                    UserId = id,
+                    Error = e.Message
                 });
             }
         }

@@ -1,0 +1,31 @@
+﻿@model UserFullInfoViewModel
+
+@{
+    ViewBag.Title = "Пользователь "+ Model.Login;
+    Layout = "_Layout";
+}
+
+<div class="container">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Просмотр пользователя @Model.Login 
+                <a asp-action="Users">Все пользователи</a>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><b>ФИО:</b> @Model.FullName</li>
+                    <li><b>Адрес:</b> @Model.Address</li>
+                    <li><b>Телефон:</b> @Model.Phone</li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <a asp-action="ResetUserPassword" asp-route-id="@Model.Id">Сброс пароля</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

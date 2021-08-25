@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Coop.Domain.Common;
 using Coop.Web.Models;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,6 +55,29 @@ namespace Coop.Web.Data
         {
             var applicationUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == user, cancellationToken: token);
             await _userManager.AddToRoleAsync(applicationUser, role);
+        }
+
+        [CanBeNull]
+        public UserFullInfoViewModel GetUser(Guid id)
+        {
+            var user = _repository.Find(id);
+            if (user == null) return null;
+            return new UserFullInfoViewModel()
+            {
+                Id = user.Id,
+                Login = user.UserName,
+                Address = user.Address,
+                FullName = user.FullName,
+                Phone = user.Phone
+            };
+        }
+
+        public async Task ResetUserPasswordAsync(Guid id, string password, CancellationToken token)
+        {
+            var user = _repository.Find(id);
+            if (user == null) throw new ArgumentException("Не найден пользователь");
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, password);
         }
     }
 }
