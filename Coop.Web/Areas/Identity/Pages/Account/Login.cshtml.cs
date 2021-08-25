@@ -85,14 +85,14 @@ namespace Coop.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Необходимо ввести электронную почту")]
+            [EmailAddress(ErrorMessage = "Необходимо ввести электронную почту")]
             [DisplayName("Электронная почта")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Необходимо ввести пароль")]
             [DisplayName("Пароль")]
-            [DataType(DataType.Password)]
+            [DataType(DataType.Password, ErrorMessage = "Необходимо ввести пароль")]
             public string Password { get; set; }
 
             [Display(Name = "Запомнить меня")] public bool RememberMe { get; set; }

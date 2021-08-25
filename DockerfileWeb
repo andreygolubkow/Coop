@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:5.0 AS builder
+#Start compilation
+WORKDIR /appsrc
+COPY . .
+RUN cd Coop.Web && dotnet publish -c Release
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:5.0
+WORKDIR /app
+COPY --from=builder /appsrc/Coop.Web/bin/Release/publish ./src
+
