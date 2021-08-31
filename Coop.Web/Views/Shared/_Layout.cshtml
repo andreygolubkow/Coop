@@ -19,8 +19,7 @@
         <div class="container">
             <a asp-controller="Home" asp-action="Index"
                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <img alt="Логотип МЕТАЛЛИСТ-4" class="bi me-2" width="40" height="32" src="~/img/logo.png"/>
-                <span class="fs-4">МЕТАЛЛИСТ-4</span>
+                <img alt="Логотип МЕТАЛЛИСТ-4" class="bi me-2" width="47" height="40" src="~/img/logo.png"/>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -31,13 +30,10 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Главная</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Advertisement" asp-action="Index">Объявления</a>
-                    </li>
                     @if (User != null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Realty" asp-action="Index">Имущество</a>
+                            <a class="nav-link text-dark" asp-controller="Realty" asp-action="Index">Личный кабинет</a>
                         </li>
                     }
                     @if (Context.User.IsInRole(Constants.ADMIN_ROLE))

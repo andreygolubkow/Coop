@@ -12,66 +12,29 @@
 <div class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <div class="col-md-12 px-0">
-            <h1 class="display-6 fst-italic">Сформировать QR код для оплаты</h1>
+            <h1 class="display-6 fst-italic">@_companyInformation.GetCompany()</h1>
         </div>
 
         <div class="row mb-2">
-            <div class="col-md-6 p-3">
-                <form class="row row-cols-lg-auto g-3 align-items-center">
-                    <div class="col-9">
-                        <div class="input-group">
-                            <div class="input-group-text">№ гаража</div>
-                            <input type="text" required class="form-control" id="input-garage-number" placeholder="Например, 121">
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="input-group">
-                            <div class="input-group-text">Сумма в рублях</div>
-                            <input type="number" required class="form-control" id="input-pay-sum" placeholder="1000">
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="input-group">
-                            <div class="input-group-text">Ваше ФИО</div>
-                            <input type="text" required class="form-control" id="input-pay-name" placeholder="Иванов А.А">
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
-                        <dnt-captcha asp-captcha-generator-max="100"
-                                     asp-captcha-generator-min="10"
-                                     asp-captcha-generator-language="English"
-                                     asp-captcha-generator-display-mode="ShowDigits"
-                                     asp-use-relative-urls="true"
-                                     asp-placeholder="Код с картинки"
-                                     asp-validation-error-message="Вы ввели неверный код"
-                                     asp-font-name="Tahoma"
-                                     asp-font-size="20"
-                                     asp-fore-color="#333333"
-                                     asp-back-color="#ccc"
-                                     asp-text-box-class="form-control"
-                                     asp-text-box-template="<div class='input-group'>{0}</div>"
-                                     asp-validation-message-class="text-danger"
-                                     asp-show-refresh-button="false"/>
-                    </div>
-                    <div class="col-12">
-                        <button id="button-check-garage" type="submit" class="btn btn-primary">Сформировать</button>
-                    </div>
-                </form>
+            @{
+                var props = _companyInformation.GetCompanyProperties();
+                var col1 = props.Count / 2;
+            }
+            <div class="col-5">
+                <ul class="list-unstyled">
+                    @for (int i = 0; i < col1; i++)
+                    {
+                        <li>@props[i]</li>
+                    }
+                </ul>
             </div>
-            <div class="col-md-6 p-3">
-                <figure class="figure">
-                    <img id="img-garage-pay"
-                         width="150"
-                         height="150"
-                         src="~/img/qr-code.png" class="figure-img img-fluid rounded" alt="QR код">
-                    <figcaption class="figure-caption">
-                        Узнать задолженность вы можете на странице имущетсва
-                        <a asp-controller="Realty" asp-action="Index">Перейти</a>
-                    </figcaption>
-                </figure>
-                <!--<p class="text-start">
-                    <a href="#">Оплатить картой через банк</a>
-                </p>-->
+            <div class="col-5">
+                <ul class="list-unstyled">
+                    @for (int i = col1; i < props.Count; i++)
+                    {
+                        <li>@props[i]</li>
+                    }
+                </ul>
             </div>
         </div>
     </div>
@@ -136,19 +99,6 @@
 
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
-                <div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="fst-italic">О кооперативе</h4>
-                    <b class="mb-0">@_companyInformation.GetCompany()</b>
-                    <ol class="list-unstyled">
-                        @foreach (var prop in _companyInformation.GetCompanyProperties())
-                        {
-                            <li>
-                                @prop
-                            </li>
-                        }
-                    </ol>
-                </div>
-
                 <div class="p-4">
                     <h4 class="fst-italic">Администрация</h4>
                     <ol class="list-unstyled">
@@ -164,6 +114,69 @@
             </div>
         </div>
     </div>
+    
+    <div class="p-4 p-md-5 mb-4 rounded">
+            <div class="col-md-12 px-0">
+                <h1 class="display-6 fst-italic">Сформировать QR код для оплаты</h1>
+            </div>
+    
+            <div class="row mb-2">
+                <div class="col-md-6 p-3">
+                    <form class="row row-cols-lg-auto g-3 align-items-center">
+                        <div class="col-9">
+                            <div class="input-group">
+                                <div class="input-group-text">№ гаража</div>
+                                <input type="text" required class="form-control" id="input-garage-number" placeholder="Например, 121">
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                <div class="input-group-text">Сумма в рублях</div>
+                                <input type="number" required class="form-control" id="input-pay-sum" placeholder="1000">
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                <div class="input-group-text">Ваше ФИО</div>
+                                <input type="text" required class="form-control" id="input-pay-name" placeholder="Иванов А.А">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-6">
+                            <dnt-captcha asp-captcha-generator-max="100"
+                                         asp-captcha-generator-min="10"
+                                         asp-captcha-generator-language="English"
+                                         asp-captcha-generator-display-mode="ShowDigits"
+                                         asp-use-relative-urls="true"
+                                         asp-placeholder="Код с картинки"
+                                         asp-validation-error-message="Вы ввели неверный код"
+                                         asp-font-name="Tahoma"
+                                         asp-font-size="20"
+                                         asp-fore-color="#333333"
+                                         asp-back-color="#ccc"
+                                         asp-text-box-class="form-control"
+                                         asp-text-box-template="<div class='input-group'>{0}</div>"
+                                         asp-validation-message-class="text-danger"
+                                         asp-show-refresh-button="false"/>
+                        </div>
+                        <div class="col-12">
+                            <button id="button-check-garage" type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 p-3">
+                    <figure class="figure">
+                        <img id="img-garage-pay"
+                             width="150"
+                             height="150"
+                             src="~/img/qr-code.png" class="figure-img img-fluid rounded" alt="QR код">
+                        <figcaption class="figure-caption">
+                            Узнать задолженность вы можете в личном кабинете
+                            <a asp-controller="Realty" asp-action="Index">Перейти</a>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
 
 </div>
 

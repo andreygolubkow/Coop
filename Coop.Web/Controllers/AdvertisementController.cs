@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coop.Web.Controllers
 {
     [Route("[controller]/[action]")]
+    [NonController]
     public class AdvertisementController : Controller
     {
         public const int PAGE_SIZE = 10;

@@ -18,6 +18,7 @@
                 <tr>
                     <th scope="col">Номер</th>
                     <th scope="col">Задолженность</th>
+                    <th scope="col">Оплата</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,11 +27,81 @@
                     <tr>
                         <th scope="row">@realty.InventoryNumber</th>
                         <td>@realty.Balance</td>
+                        <td>
+                            @{
+                                if (decimal.TryParse(realty.Balance, out var payAmount))
+                                {
+                                    var round = payAmount / 1;
+                                    if (payAmount % 1 != 0)
+                                    {
+                                        round += 1;
+                                    }
+                                    if (payAmount > 0)
+                                    {
+                                        <button class="btn btn-link" onclick="OpenQr(`@realty.InventoryNumber`,@round)">Получить QR код</button>
+                                    }
+                                    else
+                                    {
+                                        <span>Задолженности нет</span>
+                                    }
+                                }
+                            }
+                        </td>
                     </tr>
                 }
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
+
+<div id="qrModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Оплата по QR коду</h5>
+            </div>
+            <div class="modal-body">
+                <figure class="figure">
+                    <img id="img-garage-pay"
+                         width="150"
+                         src=""
+                         height="150"
+                         class="figure-img img-fluid rounded" alt="QR код">
+                    <figcaption class="figure-caption" id="qrModal-garage">
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="CloseQr()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        const qrModal = new bootstrap.Modal(document.getElementById('qrModal'))
+        const payFuncUrl = `@Url.ActionLink("GetPayImageForUser", "Payment")`;
+    
+        function OpenQr(garage, amount){
+            $("#qrModal-garage").html(`Оплата членского взноса за гараж №${garage}`);
+            $("#img-garage-pay").attr("src","");
+            qrModal.show();
+            let url = `${payFuncUrl}?subject=членский взнос за ${garage}&sum=${amount}`;
+            $.ajax({
+                url: url,
+                beforeSend: function( xhr ) {
+                    }
+            })
+            .done(function( data ) {
+                $("#img-garage-pay").attr("src",data);
+            });
+        }
+        
+        function CloseQr(){
+            qrModal.hide();
+        }
+    </script>
+}

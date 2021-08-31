@@ -37,6 +37,17 @@ namespace Coop.Web.Controllers
             return Ok(formatted);
         }
         
+        [Authorize]
+        [HttpGet("forme")]
+        public async Task<IActionResult> GetPayImageForUser([FromQuery] string subject, [FromQuery] int sum)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var code = _qrPay.GenerateCode($"{user.FullName} {subject}", sum*100);//сумма в копейках
+            var bytes = BitmapToBytes(code);
+            var formatted = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(bytes));
+            return Ok(formatted);
+        }
+        
         private static byte[] BitmapToBytes(Bitmap img)
         {
             using (var stream = new MemoryStream())

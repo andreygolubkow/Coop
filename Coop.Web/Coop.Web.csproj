@@ -27,4 +27,10 @@
         <ProjectReference Include="..\Coop.Domain\Coop.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="test.db">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

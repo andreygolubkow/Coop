@@ -61,7 +61,7 @@ namespace Coop.Application.Articles
         {
             var articles = _repository.GetAll()
                 .Where(a => a.IsActive)
-                .OrderBy(a => a.CreatedAt);
+                .OrderByDescending(a => a.CreatedAt);
             var count = articles.Count();
             return new ArticleListViewModel
             {
